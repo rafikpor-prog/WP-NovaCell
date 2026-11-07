@@ -1,0 +1,11 @@
+# Poufne materiały kliniki nie mogą trafiać do publicznego repozytorium.
+plugins/novacell-manager/data/starter-content.private.json
+*.private.json
+.env
+.env.*
+*.jks
+node_modules/
+vendor/
+.DS_Store
+__pycache__/
+dist/
