@@ -1,0 +1,33 @@
+name: Expand NOVACELL stage 2 source snapshot
+
+on:
+  push:
+    paths:
+      - 'source-archives/READY.txt'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  unpack-source:
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/feature/stage2-theme-bilingual'
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: true
+      - name: Reassemble, verify and unpack public source
+        run: |
+          set -euo pipefail
+          cat source-archives/part-*.b64 | tr -d '\n' | base64 --decode > /tmp/novacell-stage2.tar.xz
+          echo "c690d3c6c2455c6c5194c9ff95ac94a1140179319a3cab651e98ac332c60ba64  /tmp/novacell-stage2.tar.xz" | sha256sum --check
+          tar -xJf /tmp/novacell-stage2.tar.xz -C .
+          rm -f plugins/novacell-manager/README.md
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add plugins/novacell-manager themes/novacell
+          if ! git diff --cached --quiet; then
+            git commit -m 'feat(stage2): expand bilingual Theme and Manager 0.2.0 sources'
+            git push
+          fi
