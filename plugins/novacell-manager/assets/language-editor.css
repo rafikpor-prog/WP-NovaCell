@@ -1,0 +1,12 @@
+.nc-langeditor{background:#fff;border:1px solid #ccd7de;padding:24px;margin:24px 0 30px;border-radius:12px;max-width:1300px}
+.nc-langeditor h2{font-size:22px;font-weight:700;margin:0 0 10px}
+.nc-langeditor__title{max-width:800px;margin:20px 0}
+.nc-langeditor__title input{margin-top:8px;min-height:40px}
+.nc-langfield{padding:20px 0;border-top:1px solid #d6e1e7}
+.nc-langfield h3{font-size:17px;margin:0 0 14px}
+.nc-langfield__tabs{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:14px}
+.nc-langfield__tab[aria-selected="true"]{background:#183b50;color:#fff;border-color:#183b50}
+.nc-langfield__panel[hidden]{display:none!important}
+.nc-langfield :focus-visible{outline:3px solid #183b50;outline-offset:3px}
+.nc-langfield .wp-editor-container{border:1px solid #809ba9}
+@media(max-width:782px){.nc-langeditor{padding:12px}.nc-langfield{padding:14px 0}}

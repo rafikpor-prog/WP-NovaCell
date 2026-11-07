@@ -1,0 +1,54 @@
+name: NOVACELL Stage 5 Quality Checks
+
+on:
+  push:
+    branches: [feature/etap5-manager-theme-visual, main]
+  pull_request:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  php-lint:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        php: ['8.0', '8.4']
+    steps:
+      - uses: actions/checkout@v4
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php }}
+          coverage: none
+      - name: Validate syntax
+        run: |
+          set -e
+          find plugins themes -name '*.php' -type f -print0 | xargs -0 -n1 php -l
+
+  javascript-lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Validate JS syntax
+        run: |
+          set -e
+          find plugins themes -name '*.js' -type f -print0 | xargs -0 -n1 node --check
+
+  disclosure-safety:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Keep private clinic source out of public git
+        run: |
+          set -e
+          if git ls-files | grep -E '(^|/)(full-content|starter-content)\.private\.json$'; then
+            echo 'Private clinical import data must not be committed.'
+            exit 1
+          fi
+          test -f themes/novacell/screenshot.png
+          test -f plugins/novacell-manager/novacell-manager.php
+          test -f plugins/novacell-visual-editor/novacell-visual-editor.php

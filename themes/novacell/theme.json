@@ -1,0 +1,28 @@
+{
+  "version": 3,
+  "$schema": "https://schemas.wp.org/wp/6.6/theme.json",
+  "settings": {
+    "appearanceTools": true,
+    "color": { "palette": [
+      {"slug":"light-blue","name":"Błękit jasny","color":"#9ED2DF"},
+      {"slug":"blue","name":"Niebieski","color":"#55A9CE"},
+      {"slug":"navy","name":"Granat","color":"#183B50"},
+      {"slug":"background","name":"Tło","color":"#F5FAFC"},
+      {"slug":"white","name":"Biały","color":"#FFFFFF"}
+    ] },
+    "typography": {
+      "fontFamilies": [
+        {"fontFamily":"Manrope, Inter, Arial, sans-serif","slug":"manrope","name":"Manrope (nagłówki)"},
+        {"fontFamily":"Inter, Arial, sans-serif","slug":"inter","name":"Inter (treść)"}
+      ],
+      "fluid": true
+    },
+    "layout": {"contentSize":"860px", "wideSize":"1240px"},
+    "spacing": {"units":["px","em","rem","%"]}
+  },
+  "styles": {
+    "color": {"text":"#183B50","background":"#FFFFFF"},
+    "typography": {"fontFamily":"var(--wp--preset--font-family--inter)","fontSize":"18px","lineHeight":"1.7"},
+    "elements": {"heading":{"typography":{"fontFamily":"var(--wp--preset--font-family--manrope)","fontWeight":"800"}}}
+  }
+}
