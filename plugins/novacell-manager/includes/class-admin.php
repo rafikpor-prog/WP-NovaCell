@@ -36,7 +36,7 @@ final class Admin {
         }
 
         echo '<div class="wrap">';
-        echo '<h1>NOVACELL Manager <small style="font-weight:normal">0.1.0</small></h1>';
+        echo '<h1>NOVACELL Manager <small style="font-weight:normal">' . esc_html( NC_MANAGER_VERSION ) . '</small></h1>';
         echo '<p>Centralny panel danych kliniki. To bezpieczna wersja fundamentu: treści są obecnie dostępne tylko w panelu administracyjnym.</p>';
         echo '<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px;max-width:1200px;margin:20px 0">';
 
