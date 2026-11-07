@@ -51,7 +51,8 @@ final class Content_Types {
                     'has_archive'          => false,
                     'rewrite'              => false,
                     'supports'             => array( 'title', 'editor', 'excerpt', 'thumbnail', 'revisions' ),
-                    'map_meta_cap'         => true,
+                    'capability_type'     => array( 'nc_record', 'nc_records' ),
+                    'map_meta_cap'        => true,
                     'delete_with_user'     => false,
                 )
             );
@@ -68,6 +69,7 @@ final class Content_Types {
                 'show_admin_column' => true,
                 'hierarchical'      => true,
                 'rewrite'           => false,
+                'capabilities'      => array( 'manage_terms' => 'manage_options', 'edit_terms' => 'manage_options', 'delete_terms' => 'manage_options', 'assign_terms' => 'edit_nc_records' ),
             )
         );
         register_taxonomy(
@@ -81,6 +83,7 @@ final class Content_Types {
                 'show_admin_column' => true,
                 'hierarchical'      => true,
                 'rewrite'           => false,
+                'capabilities'      => array( 'manage_terms' => 'manage_options', 'edit_terms' => 'manage_options', 'delete_terms' => 'manage_options', 'assign_terms' => 'edit_nc_records' ),
             )
         );
     }
