@@ -1,0 +1,29 @@
+name: PHP Syntax Check
+
+on:
+  push:
+    paths:
+      - 'plugins/novacell-manager/**'
+      - '.github/workflows/php-lint.yml'
+  pull_request:
+    paths:
+      - 'plugins/novacell-manager/**'
+      - '.github/workflows/php-lint.yml'
+
+jobs:
+  php-lint:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        php: ['8.0', '8.4']
+    steps:
+      - uses: actions/checkout@v4
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php }}
+          tools: none
+          coverage: none
+      - name: Check PHP syntax
+        run: |
+          set -e
+          find plugins/novacell-manager -type f -name '*.php' -print0 | xargs -0 -n1 php -l
