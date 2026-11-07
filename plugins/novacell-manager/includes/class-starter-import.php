@@ -10,12 +10,9 @@ defined( 'ABSPATH' ) || exit;
 
 final class Starter_Import {
     public static function data(): array {
-        $file = NC_MANAGER_PATH . 'data/starter-content.private.json';
-        if ( ! is_readable( $file ) ) {
-            return array();
-        }
-        $raw = file_get_contents( $file );
-        $data = is_string( $raw ) ? json_decode( $raw, true ) : null;
+        $file = NC_MANAGER_PATH . 'data/starter-content.php';
+        if ( ! is_readable( $file ) ) { return array(); }
+        $data = require $file;
         return is_array( $data ) && 2 === (int) ( $data['schema'] ?? 0 ) ? $data : array();
     }
 

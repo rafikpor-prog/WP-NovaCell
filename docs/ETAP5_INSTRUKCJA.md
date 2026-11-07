@@ -7,6 +7,9 @@
 
 **Uwaga:** przed aktualizacją wykonaj pełną kopię zapasową plików i MySQL. W pierwszej kolejności użyj staging. Wszystkie trzy pakiety mają stałe slugi i standardowe instalatory WordPress, bez ręcznego FTP ani osobnego instalatora PHP.
 
+## Ochrona plików importowych
+Dane startowe w instalacyjnym ZIP są dostarczane jako wykonywane po stronie serwera pliki PHP z kontrolą `ABSPATH`, nie jako jawne pliki JSON dostępne przez HTTP. Na aktualizacji instalator próbuje usunąć pozostałości starych plików `*.private.json`. Dane nie są przechowywane w publicznym GitHub.
+
 ## Widoczność publiczna i problem 404
 1. Zaloguj się do WordPress jako administrator, przejdź do **NOVACELL Manager → Widoczność testowa**. Instalator jednorazowo włącza publiczny odczyt opisów, ale nie zmienia znacznika akceptacji klinicznej.
 2. Przejdź do **NOVACELL Manager → Trasy i podgląd**. Zapisz **Tryb bezpieczny (bez 404, parametry ?nc_view)**. To tryb domyślny, działa bez Apache mod_rewrite / konfiguracji nginx.

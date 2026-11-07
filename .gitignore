@@ -1,0 +1,7 @@
+# Private clinical content is distributed only in owner-specific ZIPs.
+plugins/novacell-manager/data/
+*.private.json
+.env
+.env.*
+dist/
+__pycache__/

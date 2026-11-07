@@ -37,6 +37,11 @@ final class Installer {
         if ( false === get_option( 'nc_manager_installed_at', false ) ) {
             add_option( 'nc_manager_installed_at', gmdate( 'c' ), '', false );
         }
+        // Usuwamy historyczne jawne pliki importu JSON z wersji 0.4.x.
+        foreach ( array( 'starter-content.private.json', 'full-content.private.json' ) as $legacy ) {
+            $legacy_file = NC_MANAGER_PATH . 'data/' . $legacy;
+            if ( is_file( $legacy_file ) ) { @unlink( $legacy_file ); }
+        }
         update_option( 'nc_manager_schema_version', self::SCHEMA_VERSION, false );
         update_option( 'nc_manager_version', NC_MANAGER_VERSION, false );
         // Etap 5: na żądanie właściciela publicznie pokazujemy importowane rekordy,

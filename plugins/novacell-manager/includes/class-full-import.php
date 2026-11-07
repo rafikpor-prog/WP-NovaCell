@@ -12,9 +12,9 @@ final class Full_Import {
     private const IMPORT_VERSION = '4';
 
     public static function data(): array {
-        $path = NC_MANAGER_PATH . 'data/full-content.private.json';
+        $path = NC_MANAGER_PATH . 'data/full-content.php';
         if ( ! is_readable( $path ) ) { return array(); }
-        $decoded = json_decode( (string) file_get_contents( $path ), true );
+        $decoded = require $path;
         return is_array( $decoded ) && 3 === (int) ( $decoded['schema'] ?? 0 ) ? $decoded : array();
     }
 
