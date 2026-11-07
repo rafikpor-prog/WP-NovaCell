@@ -1,0 +1,12 @@
+.ncv-panel{--ncv-navy:#183b50;--ncv-blue:#55a9ce;--ncv-bg:#f5fafc;--ncv-line:#cadae3;color:var(--ncv-navy);font-family:Inter,Arial,sans-serif;font-size:14px;line-height:1.5}
+.ncv-panel h2,.ncv-panel h3{font-family:Manrope,Inter,sans-serif;color:var(--ncv-navy);margin:16px 0 8px;font-weight:750}
+.ncv-intro{padding:14px;background:var(--ncv-bg);border-radius:10px;border:1px solid var(--ncv-line)}
+.ncv-tiles{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px;margin:14px 0}
+.ncv-tile{border:1px solid #a7c1d0;background:#fff;color:var(--ncv-navy);border-radius:12px;padding:12px 8px;display:flex;align-items:center;flex-direction:column;gap:8px;text-align:center;min-height:84px;min-width:0;cursor:grab;font-weight:650;line-height:1.3}
+.ncv-tile:hover,.ncv-tile:focus-visible{border-color:var(--ncv-navy);background:var(--ncv-bg)}
+.ncv-tile:focus-visible,.ncv-panel button:focus-visible,.ncv-panel input:focus-visible{outline:3px solid var(--ncv-navy)!important;outline-offset:3px!important}
+.ncv-tile img{width:25px;height:25px;flex:none}.ncv-tile span{font-size:12px}.ncv-panel .components-base-control{margin:12px 0}.ncv-tabs{display:flex;flex-wrap:wrap;gap:4px;margin:18px 0 12px;border-bottom:2px solid #cadee9;padding:0 0 5px}.ncv-tabs button{flex:1;min-height:42px;border:0;border-radius:7px;background:transparent;color:var(--ncv-navy);font-size:12px;font-weight:650}.ncv-tabs button[aria-selected=true]{background:var(--ncv-navy);color:#fff}.ncv-help{font-size:12px;color:#34566b}.ncv-richtext{border:1px solid #a7c1d0;padding:12px;background:#fff;min-height:100px;border-radius:8px}.ncv-warning{border-left:4px solid #8b6315;padding:10px;background:#fff9e9;color:#183b50}
+.ncv-section-preview{border:1px solid #a8c2d1;padding:20px;background:var(--ncv-bg);border-radius:14px;color:var(--ncv-navy)}
+.ncv-section-preview strong{display:block;font:750 20px/1.4 Manrope,Inter,sans-serif}.ncv-section-preview p{margin:7px 0 0}
+.nc-visual-section{background:#f5fafc;color:#183b50;border:1px solid #d2e5ee;border-radius:16px;padding:clamp(20px,4vw,45px);margin-block:1.5rem}.nc-visual-section h2{color:#183b50}.nc-visual-section__lead{font-size:1.12em}
+@media(prefers-reduced-motion:reduce){.ncv-panel *, .ncv-panel *::before, .ncv-panel *::after{animation:none!important;transition:none!important}}

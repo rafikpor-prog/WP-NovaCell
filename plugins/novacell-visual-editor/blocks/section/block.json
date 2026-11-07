@@ -1,0 +1,20 @@
+{
+  "apiVersion": 3,
+  "name": "novacell/section",
+  "title": "Sekcja NOVACELL",
+  "category": "widgets",
+  "icon": "layout",
+  "description": "Wyświetla wskazaną, aktualną sekcję z NOVACELL Manager bez kopiowania jej treści.",
+  "textdomain": "novacell-visual-editor",
+  "attributes": {
+    "sectionId": { "type": "string", "default": "hero" },
+    "language": { "type": "string", "default": "auto" }
+  },
+  "supports": {
+    "html": false,
+    "align": ["wide", "full"],
+    "color": { "text": true, "background": true },
+    "spacing": { "margin": true, "padding": true },
+    "typography": { "fontSize": true }
+  }
+}

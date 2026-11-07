@@ -1,0 +1,35 @@
+.nc-builder{max-width:1240px;color:#183b50;font-family:Inter,Arial,sans-serif}.nc-builder>h1{font-family:Manrope,Inter,Arial,sans-serif;font-weight:800;margin:22px 0}.nc-builder p{max-width:1060px;font-size:15px;line-height:1.65}.nc-section-card{margin:12px 0;border:1px solid #c2dbe5;background:#fff;border-radius:12px;box-shadow:0 2px 12px #183b5009;overflow:hidden}.nc-section-card:focus-within{border-color:#183b50}.nc-card-head{display:flex;align-items:center;gap:10px;padding:14px 17px;background:#f5fafc}.nc-drag{font-size:25px;cursor:grab;color:#183b50;touch-action:none;line-height:1}.nc-card-name{display:grid;flex:1;gap:2px}.nc-card-name strong{font-size:16px}.nc-card-name small{color:#496579}.nc-card-controls{padding:5px 18px 12px;font-size:14px}.nc-card-details{padding:18px;border-top:1px solid #e2ebf0}.nc-tab-list{display:flex;gap:8px;margin:0 0 18px;border-bottom:1px solid #cadce4;padding:0 0 12px}.nc-lang-tab{font:600 14px Inter,Arial,sans-serif;background:#fff;color:#183b50;border:1px solid #9baebc;border-radius:8px;padding:11px 16px;cursor:pointer}.nc-lang-tab[aria-selected=true]{background:#183b50;color:#fff;border-color:#183b50}.nc-lang-tab:focus-visible,.nc-builder button:focus-visible{outline:3px solid #55a9ce;outline-offset:3px}.nc-lang-panel>p{margin-bottom:6px}.nc-lang-panel>input,.nc-lang-panel>textarea{margin:0 0 13px;max-width:100%}.nc-lang-panel[hidden],.nc-card-details[hidden]{display:none!important}.nc-save-row{position:sticky;bottom:0;background:#f5fafced;padding:14px 0;border-top:1px solid #d7e7ef;z-index:5}.nc-sortable-placeholder{border:2px dashed #55a9ce;border-radius:12px;height:68px;background:#eaf6fb}.nc-section-card.ui-sortable-helper{box-shadow:0 8px 30px #183b5030}.nc-card-head button{min-height:40px}.nc-card-head button:hover{border-color:#183b50}@media(max-width:780px){.nc-card-head{flex-wrap:wrap}.nc-card-name{flex-basis:100%}.nc-tab-list{flex-wrap:wrap}.nc-card-details{padding:12px}}
+/* Stage 4: NOVACELL Studio, bez niepotrzebnych animacji i kolorów o niskim kontraście. */
+.nc-builder--studio{max-width:none;margin-right:20px}
+.nc-studio-top{display:flex;align-items:center;justify-content:space-between;gap:20px;border-bottom:1px solid #d7e4eb;padding:20px 0 18px;margin-bottom:22px}
+.nc-studio-top h1{font-size:30px;line-height:1.2;margin:7px 0 5px;font-family:Manrope,Inter,Arial,sans-serif;color:#183b50}
+.nc-studio-top p{margin:0;color:#3b5767}
+.nc-studio-eyebrow{color:#285c76;letter-spacing:.1em;font:800 11px Manrope,Arial,sans-serif}
+.nc-studio-version{background:#e2f1f7;border:1px solid #c6e0ea;border-radius:100px;padding:8px 14px;color:#183b50;white-space:nowrap;font-weight:700}
+.nc-studio-layout{display:grid;grid-template-columns:minmax(500px,1.25fr) minmax(340px,.8fr);gap:24px;align-items:start}
+.nc-studio-edit{min-width:0}
+.nc-studio-hint{background:#eaf6fa;border-left:4px solid #183b50;padding:14px 18px;border-radius:7px}
+.nc-studio-preview{position:sticky;top:52px;min-width:0;border:1px solid #b7d2df;background:#fff;border-radius:15px;overflow:hidden;box-shadow:0 12px 36px rgba(24,59,80,.075)}
+.nc-preview-toolbar{padding:17px 19px;background:#f5fafc;border-bottom:1px solid #c7dae3;display:flex;align-items:start;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.nc-preview-toolbar strong{display:block;font:750 16px Manrope,Arial,sans-serif}
+.nc-preview-toolbar small{display:block;color:#4a6070;margin-top:5px}
+.nc-preview-actions{display:flex;gap:6px}
+.nc-preview-actions button{min-height:38px!important}
+.nc-preview-actions button[aria-pressed=true]{background:#183b50!important;color:#fff!important;border-color:#183b50!important}
+#nc-studio-frame{display:block;width:100%;height:min(71vh,880px);min-height:460px;border:0;background:#fff}
+.nc-preview-caption{padding:12px 18px;margin:0!important;font-size:12px!important;color:#3c5868}
+.nc-card-index{display:grid;place-items:center;min-width:34px;height:34px;border-radius:9px;background:#e5f2f7;color:#183b50;font-weight:750}
+.nc-card-name small{font-size:12px}
+.nc-section-card{border-radius:13px}
+.nc-card-head{padding:16px 18px}
+.nc-lang-tab{min-height:44px}
+.nc-diagnostics{max-width:1400px}.nc-status-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:15px;margin:24px 0}.nc-status{background:#fff;border:1px solid #b6d0dc;border-radius:12px;padding:19px;display:grid;gap:8px}.nc-status__label{font-size:13px;color:#35566a}.nc-status strong{font:750 21px Manrope,Arial,sans-serif;color:#183b50}.nc-diagnostics .widefat th,.nc-diagnostics .widefat td{padding:13px}
+@media(max-width:1200px){.nc-studio-layout{grid-template-columns:1fr}.nc-studio-preview{position:static}.nc-studio-top{flex-wrap:wrap}}@media(max-width:760px){.nc-builder--studio{margin-right:10px}.nc-studio-top h1{font-size:24px}.nc-card-index{display:none}}
+
+/* Etap 5: sekcje tworzone przez redaktora, czytelny fokus i przycisk dodawania. */
+.nc-add-section{border:2px dashed #83b1c7;border-radius:14px;background:#f5fafc;padding:25px;display:flex;justify-content:center;margin:22px 0}
+.nc-add-section .button{color:#fff;background:#183b50;border-color:#183b50;min-height:46px;padding:6px 20px;font-weight:700}
+.nc-add-section .button:hover{background:#28556e;border-color:#183b50;color:#fff}
+.nc-remove-row{margin:0!important;padding:0 18px 10px!important;text-align:right}
+.nc-remove-row .button-link-delete{color:#7b1627!important;text-decoration:underline}
+.nc-section-card .nc-lang-tab:focus-visible,.nc-builder .button:focus-visible{outline:3px solid #183b50!important;outline-offset:3px!important}
