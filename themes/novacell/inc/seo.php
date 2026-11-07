@@ -51,6 +51,8 @@ add_action( 'wp_head', static function (): void {
 
     // Dane strukturalne kliniki są emitowane wyłącznie po formalnej akceptacji strony.
     if ( ! (bool) get_option( 'nc_site_approved', false ) ) { return; }
+    // Search engines must not index medical records that still require clinical review.
+    if ( $post && 'approved' !== (string) get_post_meta( $post->ID, '_nc_editorial_status', true ) ) { return; }
     $clinic = array(
         '@context' => 'https://schema.org',
         '@type' => 'MedicalClinic',

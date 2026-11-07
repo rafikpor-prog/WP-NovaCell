@@ -48,6 +48,8 @@ final class Site_Builder {
         echo '<div class="nc-studio-layout"><div class="nc-studio-edit">';
         self::feedback();
         echo '<p class="nc-studio-hint">Wybierz sekcję, rozwiń edycję, a następnie wprowadź treści w zakładkach PL / EN. Kolejność można zmieniać myszą i klawiaturą. Przed odświeżeniem podglądu zapisz zmiany.</p>';
+        echo '<p><a class="button button-primary" href="' . esc_url( admin_url( 'admin.php?page=novacell-visual-editor' ) ) . '">Otwórz Visual Editor Gutenberg</a> ';
+        echo '<a class="button button-secondary" href="' . esc_url( admin_url( 'admin.php?page=novacell-diagnostics' ) ) . '">Sprawdź błąd 404</a></p>';
         echo '<p><a class="button button-secondary" href="' . esc_url( add_query_arg( array( 'nc_view' => 'home', 'nc_lang' => 'pl' ), home_url( '/' ) ) ) . '" target="_blank" rel="noopener">Otwórz podgląd PL</a> ';
         echo '<a class="button button-secondary" href="' . esc_url( add_query_arg( array( 'nc_view' => 'home', 'nc_lang' => 'en' ), home_url( '/' ) ) ) . '" target="_blank" rel="noopener">Otwórz podgląd EN</a></p>';
         echo '<form action="' . esc_url( admin_url( 'admin-post.php' ) ) . '" method="post" id="nc-home-form">';

@@ -2,8 +2,8 @@
 /**
  * Plugin Name: NOVACELL Manager
  * Plugin URI: https://github.com/rafikpor-prog/WP-NovaCell
- * Description: Panel zarządzania treściami kliniki NOVACELL. Etap 5: diagnostyka 404, bezpośredni podgląd rekordów i dwujęzyczny panel.
- * Version: 0.5.0
+ * Description: Panel zarządzania treściami kliniki NOVACELL. Etap 6: centralny panel, diagnostyka adresów, dwujęzyczny CMS i publiczny podgląd.
+ * Version: 0.6.0
  * Requires at least: 6.5
  * Requires PHP: 8.0
  * Text Domain: novacell-manager
@@ -11,7 +11,7 @@
 
 defined( 'ABSPATH' ) || exit;
 
-define( 'NC_MANAGER_VERSION', '0.5.0' );
+define( 'NC_MANAGER_VERSION', '0.6.0' );
 define( 'NC_MANAGER_FILE', __FILE__ );
 define( 'NC_MANAGER_PATH', plugin_dir_path( __FILE__ ) );
 
@@ -29,6 +29,7 @@ require_once NC_MANAGER_PATH . 'includes/class-main-menu.php';
 require_once NC_MANAGER_PATH . 'includes/class-preview-settings.php';
 require_once NC_MANAGER_PATH . 'includes/class-diagnostics.php';
 require_once NC_MANAGER_PATH . 'includes/class-preview-links.php';
+require_once NC_MANAGER_PATH . 'includes/class-readiness.php';
 require_once NC_MANAGER_PATH . 'includes/class-plugin.php';
 
 add_action( 'plugins_loaded', array( \NovaCell\Manager\Plugin::class, 'boot' ) );

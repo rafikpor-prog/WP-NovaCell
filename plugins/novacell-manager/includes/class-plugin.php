@@ -7,6 +7,7 @@ defined( 'ABSPATH' ) || exit;
 final class Plugin {
     public static function boot(): void {
         add_action( 'init', array( Content_Types::class, 'register' ) );
+        Readiness::boot();
         add_action( 'init', array( Metadata::class, 'register' ), 11 );
         // Przeniesiono języki do wspólnego edytora każdej treści WYSIWYG.
         Language_Editor::boot();

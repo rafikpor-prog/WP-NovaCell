@@ -53,7 +53,9 @@ final class Diagnostics {
         wp_nonce_field( 'nc_repair_routes' );
         echo '<input type="hidden" name="action" value="nc_repair_routes"><p><button type="submit" class="button button-primary">Napraw adresy i sprawdź menu</button> <a class="button" href="' . esc_url( admin_url( 'admin.php?page=novacell-full-import' ) ) . '">Sprawdź import treści</a></p></form>';
         if ( ! $theme_active ) { echo '<div class="notice notice-warning inline"><p>Włącz NOVACELL Theme w Wygląd → Motywy, aby otwierać podstrony systemowe.</p></div>'; }
-        echo '<p><strong>Adres ratunkowy:</strong> jeżeli przyjazna ścieżka zwraca 404, link «Otwórz bez reguł URL» musi działać jako zalogowany administrator. Jeżeli także ten link zwraca 404, sprawdź aktywność motywu, konflikty innych wtyczek i konfigurację serwera.</p>';
+        echo '<div class="notice notice-info inline"><p><strong>Ważne: wpisane bez /wp-admin/ slug-i są błędne.</strong> NOVACELL Manager to panel administracyjny, a nie adresy podstron: np. <code>/novacell-pages</code> zwróci 404, ponieważ właściwy URL to <code>/wp-admin/admin.php?page=novacell-pages</code>.</p>';
+        echo '<p><a href="' . esc_url( admin_url( 'admin.php?page=novacell-pages' ) ) . '">Podstrony PL/EN</a> | <a href="' . esc_url( admin_url( 'admin.php?page=novacell-home-builder' ) ) . '">Menedżer strony głównej</a> | <a href="' . esc_url( admin_url( 'admin.php?page=novacell-visual-editor' ) ) . '">Visual Editor</a></p></div>';
+        echo '<p><strong>Adres diagnostyczny:</strong> jeżeli przyjazna ścieżka zwraca 404, skorzystaj z linku «Otwórz bez reguł URL». Jeśli serwer zwraca własny komunikat «Not Found» przed uruchomieniem WordPress, wtyczka nie może sama naprawić konfiguracji Apache/Nginx. W tym przypadku sprawdź wskazówki serwera w dokumentacji Etapu 6.</p>';
         echo '<h2>Tryb adresów URL</h2>';
         echo '<p>Tryb bezpieczny nie wymaga reguł rewrite i jest zalecany, jeżeli występują błędy 404. Adresy czytelne wymagają prawidłowej konfiguracji Apache/Nginx.</p>';
         echo '<form method="post" action="' . esc_url( admin_url( 'admin-post.php' ) ) . '">';

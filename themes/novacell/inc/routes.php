@@ -35,6 +35,32 @@ function nc_theme_routes(): array {
     return $routes;
 }
 
+
+/** A route is available only if its imported record remains published. */
+function nc_theme_route_published( string $key ): bool {
+    if ( 0 !== strpos( $key, 'ncfull-' ) ) { return true; }
+    $index  = (array) get_option( 'nc_full_route_index', array() );
+    $source = substr( $key, 7 );
+    $id     = absint( $index[ $source ]['post_id'] ?? 0 );
+    return $id > 0 && 'publish' === get_post_status( $id );
+}
+
+/** For EN pages, the translated body must really exist. */
+function nc_theme_translation_available( string $key, string $lang ): bool {
+    if ( 'pl' === $lang || 0 !== strpos( $key, 'ncfull-' ) ) { return true; }
+    if ( 'ncfull-topic-22' === $key ) { return true; }
+    $index  = (array) get_option( 'nc_full_route_index', array() );
+    $id     = absint( $index[ substr( $key, 7 ) ]['post_id'] ?? 0 );
+    if ( ! $id ) { return false; }
+    $body = (string) get_post_meta( $id, 'nc_en_body', true );
+    return '' !== trim( wp_strip_all_tags( $body ) );
+}
+
+/** Query fallback only for routes known to NOVACELL; never intercept other plugins. */
+function nc_theme_verified_route( string $key ): bool {
+    return isset( nc_theme_routes()[ $key ] ) && nc_theme_route_published( $key );
+}
+
 function nc_theme_link( string $key, string $lang = 'pl' ): string {
     $routes = nc_theme_routes();
     $lang   = 'en' === $lang ? 'en' : 'pl';
@@ -132,7 +158,15 @@ add_action( 'parse_request', static function ( $wp ): void {
 add_filter( 'pre_handle_404', static function ( $handled, $query ) {
     if ( ! $query->is_main_query() ) { return $handled; }
     $key = sanitize_key( (string) $query->get( 'nc_view', '' ) );
-    if ( $key && isset( nc_theme_routes()[ $key ] ) ) {
+    if ( ! $key ) {
+        $match = nc_theme_resolve_path( nc_theme_requested_path() );
+        $key = $match[0] ?? '';
+        if ( $key && nc_theme_verified_route( $key ) ) {
+            $query->set( 'nc_view', $key );
+            $query->set( 'nc_lang', $match[1] );
+        }
+    }
+    if ( $key && nc_theme_verified_route( $key ) ) {
         $query->is_404 = false;
         $query->is_home = false;
         return true;
@@ -142,13 +176,21 @@ add_filter( 'pre_handle_404', static function ( $handled, $query ) {
 
 add_filter( 'redirect_canonical', static function ( $redirect, $requested ) {
     $key = sanitize_key( (string) get_query_var( 'nc_view', '' ) );
-    if ( $key && isset( nc_theme_routes()[ $key ] ) ) { return false; }
+    if ( $key && nc_theme_verified_route( $key ) ) { return false; }
     return $redirect;
 }, 10, 2 );
 
 add_filter( 'template_include', static function ( string $template ): string {
     $key = sanitize_key( (string) get_query_var( 'nc_view', '' ) );
-    if ( $key && isset( nc_theme_routes()[ $key ] ) ) {
+    if ( ! $key ) {
+        $match = nc_theme_resolve_path( nc_theme_requested_path() );
+        if ( $match ) {
+            $key = $match[0];
+            set_query_var( 'nc_view', $match[0] );
+            set_query_var( 'nc_lang', $match[1] );
+        }
+    }
+    if ( $key && nc_theme_verified_route( $key ) ) {
         global $wp_query;
         if ( $wp_query instanceof \WP_Query ) {
             $wp_query->is_404 = false;
@@ -162,7 +204,7 @@ add_filter( 'template_include', static function ( string $template ): string {
 
 add_action( 'template_redirect', static function (): void {
     $key = sanitize_key( (string) get_query_var( 'nc_view', '' ) );
-    if ( $key && isset( nc_theme_routes()[ $key ] ) ) {
+    if ( $key && nc_theme_verified_route( $key ) ) {
         status_header( 200 );
         if ( current_user_can( 'manage_options' ) && ! headers_sent() ) { nocache_headers(); }
     }
@@ -175,11 +217,17 @@ add_action( 'after_switch_theme', static function (): void {
 
 function nc_theme_route_key(): string {
     $key = sanitize_key( (string) get_query_var( 'nc_view', '' ) );
-    return $key ?: ( is_front_page() || is_home() ? 'home' : '' );
+    if ( $key && nc_theme_verified_route( $key ) ) { return $key; }
+    $resolved = nc_theme_resolve_path( nc_theme_requested_path() );
+    if ( $resolved && nc_theme_verified_route( $resolved[0] ) ) { return $resolved[0]; }
+    return is_front_page() || is_home() ? 'home' : '';
 }
 
 function nc_theme_lang(): string {
-    return 'en' === (string) get_query_var( 'nc_lang', '' ) ? 'en' : 'pl';
+    $lang = (string) get_query_var( 'nc_lang', '' );
+    if ( 'en' === $lang || 'pl' === $lang ) { return $lang; }
+    $resolved = nc_theme_resolve_path( nc_theme_requested_path() );
+    return ( $resolved && 'en' === $resolved[1] ) ? 'en' : 'pl';
 }
 
 /** Zastępuje stare ręczne adresy menu działającymi linkami bez rewrite. */
