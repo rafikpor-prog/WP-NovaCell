@@ -1,0 +1,43 @@
+name: NOVACELL Stage 6 Quality Checks
+
+on:
+  push:
+    branches: [feature/etap6-hardening-release]
+  pull_request:
+    branches: [feature/etap5-manager-theme-visual, main]
+
+permissions:
+  contents: read
+
+jobs:
+  syntax:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        php: ['8.0', '8.4']
+    steps:
+      - uses: actions/checkout@v4
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php }}
+          coverage: none
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: PHP syntax (code-only public repository)
+        run: |
+          set -euo pipefail
+          find plugins themes -type f -name '*.php' -print0 | xargs -0 -n1 php -l
+      - name: JavaScript syntax
+        run: |
+          set -euo pipefail
+          find plugins themes -type f -name '*.js' -print0 | xargs -0 -n1 node --check
+      - name: Check admin entry points and privacy guards
+        run: |
+          set -euo pipefail
+          grep -q "novacell-visual-editor" plugins/novacell-visual-editor/novacell-visual-editor.php
+          grep -q "novacell-home-builder" plugins/novacell-manager/includes/class-admin.php
+          grep -q "novacell-pages" plugins/novacell-manager/includes/class-admin.php
+          grep -q "pre_handle_404" themes/novacell/inc/routes.php
+          test -f themes/novacell/screenshot.png
+          ! git ls-files | grep -E 'plugins/novacell-manager/data/|\.private\.json$'
