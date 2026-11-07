@@ -1,0 +1,51 @@
+name: NOVACELL stage 3 source expansion and PHP validation
+
+on:
+  push:
+    branches:
+      - feature/manager-0.3.0-theme-0.2.0
+    paths:
+      - source-archives/novacell-stage3-public.b64
+      - .github/workflows/stage3-expand.yml
+
+permissions:
+  contents: write
+
+jobs:
+  extract-and-test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out branch
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: true
+
+      - name: Reassemble and verify source
+        shell: bash
+        run: |
+          set -euo pipefail
+          tr -d '\\n\\r' < source-archives/novacell-stage3-public.b64 | base64 --decode > /tmp/novacell-stage3.tar.xz
+          echo '4a437717b74b8aae843e2847f8602b866922b35b5b2995f58ad8292c9c9c3b15  /tmp/novacell-stage3.tar.xz' | sha256sum --check
+          tar -xJf /tmp/novacell-stage3.tar.xz -C .
+          ! find plugins themes -type f -name '*.private.json' | grep -q .
+          test -f plugins/novacell-manager/novacell-manager.php
+          test -f themes/novacell/style.css
+          test -f themes/novacell/assets/images/novacell-logo-gradient.png
+
+      - name: Validate PHP syntax
+        shell: bash
+        run: |
+          set -euo pipefail
+          find plugins/novacell-manager themes/novacell -type f -name '*.php' -print0 | xargs -0 -n1 php -l
+
+      - name: Commit readable source tree
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add plugins/novacell-manager themes/novacell tests docs releases
+          if ! git diff --cached --quiet; then
+            git commit -m 'feat(stage3): publish complete readable Manager and Theme sources'
+            git push origin HEAD:feature/manager-0.3.0-theme-0.2.0
+          fi
