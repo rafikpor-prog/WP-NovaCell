@@ -44,6 +44,7 @@ add_action( 'enqueue_block_editor_assets', static function (): void {
             'icons'    => NC_VISUAL_URL . 'assets/icons/',
             'sections' => $sections,
             'homeUrl'  => home_url( '/' ),
+            'autoOpen' => isset( $_GET['novacell_visual'] ) && '1' === (string) $_GET['novacell_visual'],
         ), JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT ) . ';',
         'before'
     );
@@ -90,7 +91,7 @@ register_activation_hook( __FILE__, 'nc_visual_ensure_canvas' );
 
 function nc_visual_edit_url(): string {
     $id = nc_visual_ensure_canvas();
-    return $id ? admin_url( 'post.php?post=' . $id . '&action=edit' ) : admin_url( 'edit.php?post_type=page' );
+    return $id ? add_query_arg( 'novacell_visual', '1', admin_url( 'post.php?post=' . $id . '&action=edit' ) ) : admin_url( 'edit.php?post_type=page' );
 }
 
 add_action( 'admin_menu', static function (): void {
@@ -98,6 +99,10 @@ add_action( 'admin_menu', static function (): void {
         'NOVACELL Visual Editor', 'NOVACELL Visual Editor', 'edit_pages',
         'novacell-visual-editor', 'nc_visual_welcome', 'dashicons-layout', 26
     );
+    if ( defined( 'NC_MANAGER_VERSION' ) ) {
+        add_submenu_page( 'novacell-manager', 'Visual Editor', 'Visual Editor',
+            'edit_pages', 'novacell-visual-editor', 'nc_visual_welcome' );
+    }
     $open_hook = add_submenu_page(
         'novacell-visual-editor', 'Uruchom Visual Editor', 'Otwórz edytor',
         'edit_pages', 'novacell-visual-open', 'nc_visual_welcome'
@@ -124,6 +129,7 @@ function nc_visual_welcome(): void {
     echo '<a class="button button-hero" href="' . esc_url( admin_url( 'admin.php?page=novacell-home-builder' ) ) . '">Edytuj stronę główną PL/EN</a> ';
     echo '<a class="button button-hero" href="' . esc_url( admin_url( 'admin.php?page=novacell-diagnostics' ) ) . '">Sprawdź trasy i 404</a></p>';
     echo '<h2>Jaki ekran służy do czego?</h2><p><strong>Visual Editor</strong> edytuje natywne strony i wpisy Gutenberg. <strong>Menedżer strony głównej</strong> edytuje dane dziewięciu dynamicznych sekcji i obie wersje językowe. <strong>Podstrony PL/EN</strong> służą do edycji materiałów kliniki z importu Word.</p>';
+    echo '<p>Po kliknięciu przycisku otwierającego edytor zakładka NOVACELL pojawi się automatycznie, jeśli używany Gutenberg udostępnia API paska bocznego. W przeciwnym przypadku wybierz ją w menu paneli edytora.</p>';
     echo '<p>Ten ekran jest dostępny z lewego menu WordPress. Nie otwieraj adresu <code>/novacell-visual-editor</code> w witrynie; to identyfikator panelu administracyjnego.</p>';
     echo '</div>';
 }
@@ -141,3 +147,17 @@ add_filter( 'plugin_action_links_' . plugin_basename( __FILE__ ), static functio
     array_unshift( $links, '<a href="' . esc_url( admin_url( 'admin.php?page=novacell-visual-editor' ) ) . '">Otwórz edytor</a>' );
     return $links;
 } );
+
+/** Prosty, wyraźny link otwierający panel wizualny z listy stron/wpisów. */
+add_filter( 'page_row_actions', 'nc_visual_row_action', 50, 2 );
+add_filter( 'post_row_actions', 'nc_visual_row_action', 50, 2 );
+function nc_visual_row_action( array $actions, \WP_Post $post ): array {
+    if ( ! in_array( $post->post_type, array( 'post', 'page' ), true ) || ! current_user_can( 'edit_post', $post->ID ) ) {
+        return $actions;
+    }
+    $url = get_edit_post_link( $post->ID, 'raw' );
+    if ( $url ) {
+        $actions['novacell-visual'] = '<a href="' . esc_url( add_query_arg( 'novacell_visual', '1', $url ) ) . '">Włącz Visual Editor</a>';
+    }
+    return $actions;
+}
