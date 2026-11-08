@@ -1,0 +1,332 @@
+[
+  {
+    "old": "/",
+    "topic": "Strona główna",
+    "decision": "Nowa strona główna",
+    "new": "/"
+  },
+  {
+    "old": "/privacy-policy/",
+    "topic": "Polityka prywatności (EN)",
+    "decision": "Nowa wersja PL i EN (temat 32)",
+    "new": "/polityka-prywatnosci (EN: /en/privacy-policy)"
+  },
+  {
+    "old": "/contact-novacell/",
+    "topic": "Kontakt",
+    "decision": "Przepisana (temat 31)",
+    "new": "/kontakt"
+  },
+  {
+    "old": "/double-filtration-plasmapheresis-dfpp/",
+    "topic": "DFPP, strona główna",
+    "decision": "Połączona w opis metody",
+    "new": "/metody/dfpp-tpe-afereza"
+  },
+  {
+    "old": "/about-novacell-clinic/",
+    "topic": "Meet Team",
+    "decision": "Zastąpiona (temat 25 i 26); dr Jarema tylko w badaniach",
+    "new": "/o-nas"
+  },
+  {
+    "old": "/discovery-call-30-minute-introductory-consultation/",
+    "topic": "Discovery Call",
+    "decision": "Włączona do strony dla pacjentów z zagranicy; usunąć placeholder ceny",
+    "new": "/en/international-patients"
+  },
+  {
+    "old": "/welcome-to-novacell/",
+    "topic": "Why Us?",
+    "decision": "Zastąpiona (temat 25)",
+    "new": "/o-nas"
+  },
+  {
+    "old": "/vitamin-therapies/",
+    "topic": "Wlewy",
+    "decision": "Połączona w opis metody",
+    "new": "/metody/wlewy-dozylne"
+  },
+  {
+    "old": "/stem-cell-dfpp-patient-faq-novacell-clinic/",
+    "topic": "FAQ",
+    "decision": "Pytania rozdzielone do ścieżek i metod",
+    "new": "/z-czym-pomagamy/terapie-komorkowe"
+  },
+  {
+    "old": "/double-filtration-plasmapheresis-dfpp-at-novacell-clinic/",
+    "topic": "DFPP w NOVACELL",
+    "decision": "Połączona",
+    "new": "/metody/dfpp-tpe-afereza"
+  },
+  {
+    "old": "/womens-health-2/",
+    "topic": "Zdrowie kobiety",
+    "decision": "Zastąpiona ścieżkami kobiecymi",
+    "new": "/z-czym-pomagamy/menopauza"
+  },
+  {
+    "old": "/mens-health/",
+    "topic": "Zdrowie mężczyzny",
+    "decision": "Zdjąć do czasu urologa; diagnostyka hormonalna już dostępna",
+    "new": "/z-czym-pomagamy/hormony-mezczyzny"
+  },
+  {
+    "old": "/knowledge-base/",
+    "topic": "Baza wiedzy",
+    "decision": "Nowy dział",
+    "new": "/wiedza"
+  },
+  {
+    "old": "/home/",
+    "topic": "Duplikat strony głównej",
+    "decision": "Usunąć",
+    "new": "/"
+  },
+  {
+    "old": "/patient-journey/",
+    "topic": "Ścieżka pacjenta",
+    "decision": "Zastąpiona (temat 24)",
+    "new": "/jak-pracujemy"
+  },
+  {
+    "old": "/fees-insurance/",
+    "topic": "Opłaty i ubezpieczenie",
+    "decision": "Zastąpiona cennikiem i stroną EN",
+    "new": "/cennik (EN: /en/prices)"
+  },
+  {
+    "old": "/therapy-services/",
+    "topic": "Lista usług",
+    "decision": "Zastąpiona działem metod",
+    "new": "/metody"
+  },
+  {
+    "old": "/womens-health-ovarian-regeneration-fertility-and-urogynecology/",
+    "topic": "Regeneracja jajnika",
+    "decision": "Przepisana ze statusem metody (temat 3)",
+    "new": "/z-czym-pomagamy/plodnosc-rezerwa-jajnikowa"
+  },
+  {
+    "old": "/dfpp-treatment-pathway-consent-prep-procedure-aftercare/",
+    "topic": "Ścieżka DFPP",
+    "decision": "Zachowana w opisie metody i w przygotowaniu do zabiegu",
+    "new": "/metody/dfpp-tpe-afereza"
+  },
+  {
+    "old": "/dfpp-prep-medications-diet-travel-checklist/",
+    "topic": "Przygotowanie do DFPP",
+    "decision": "Zachowana (temat 40)",
+    "new": "/jak-pracujemy/przygotowanie-do-zabiegu"
+  },
+  {
+    "old": "/stem-cell-recovery-timeline-what-to-expect-when/",
+    "topic": "Po terapii komórkowej",
+    "decision": "Zachowana w części (temat 40)",
+    "new": "/jak-pracujemy/przygotowanie-do-zabiegu"
+  },
+  {
+    "old": "/combine-dfpp-iv-therapy-stem-cells-peptides/",
+    "topic": "Kiedy łączyć",
+    "decision": "Przepisać jako artykuł",
+    "new": "/wiedza/kiedy-laczyc-dfpp-wlewy-terapie-regeneracyjne"
+  },
+  {
+    "old": "/cord-blood-stem-cells-uses-benefits-safety/",
+    "topic": "Komórki z krwi pępowinowej",
+    "decision": "Przepisana jako badania kliniczne i wyjątek szpitalny (temat 21)",
+    "new": "/z-czym-pomagamy/terapie-komorkowe"
+  },
+  {
+    "old": "/womens-health-urinary-incontinence/",
+    "topic": "Nietrzymanie moczu",
+    "decision": "Przepisana (temat 2)",
+    "new": "/z-czym-pomagamy/suchosc-pochwy-nietrzymanie-moczu"
+  },
+  {
+    "old": "/msc-therapy-for-ed-msc-benefits-safety-results/",
+    "topic": "MSC w zaburzeniach erekcji",
+    "decision": "Zdjąć; przepisać z urologiem (temat 6)",
+    "new": "/z-czym-pomagamy/libido-hormony"
+  },
+  {
+    "old": "/mens-health-stem-cells-msc/",
+    "topic": "MSC u mężczyzn",
+    "decision": "Zdjąć; przepisać z urologiem",
+    "new": "/z-czym-pomagamy/terapie-komorkowe"
+  },
+  {
+    "old": "/peyronies-disease-stem-cell-therapy/",
+    "topic": "Choroba Peyroniego",
+    "decision": "Zdjąć; przepisać z urologiem (temat 6)",
+    "new": "/z-czym-pomagamy/terapie-komorkowe"
+  },
+  {
+    "old": "/stem-cells-hormonal-disorders-low-libido/",
+    "topic": "Libido i hormony",
+    "decision": "Przepisana bez komórek jako ścieżka (temat 42)",
+    "new": "/z-czym-pomagamy/libido-hormony"
+  },
+  {
+    "old": "/stem-cell-therapy-patient-guide/",
+    "topic": "Przewodnik pacjenta",
+    "decision": "Zachowana, przepisana (C5)",
+    "new": "/wiedza/terapie-komorkowe-przewodnik"
+  },
+  {
+    "old": "/safety-risiks-of-steam-cell-therapy/",
+    "topic": "Bezpieczeństwo",
+    "decision": "Włączona do przewodnika",
+    "new": "/wiedza/terapie-komorkowe-przewodnik"
+  },
+  {
+    "old": "/autologous-vs-allogeneic-cell-sources-and-why-they-matter/",
+    "topic": "Własne vs od dawcy",
+    "decision": "Włączona do przewodnika",
+    "new": "/wiedza/terapie-komorkowe-przewodnik"
+  },
+  {
+    "old": "/stem-cells-with-dfpp-iv-peptides-when-it-makes-sense/",
+    "topic": "Komórki z DFPP, wlewami, peptydami",
+    "decision": "Przepisać jako artykuł; peptydy ostrożnie",
+    "new": "/wiedza/kiedy-laczyc-dfpp-wlewy-terapie-regeneracyjne"
+  },
+  {
+    "old": "/dfpp-double-filtration-plasmapheresis-patient-guide/",
+    "topic": "O DFPP",
+    "decision": "Zachowana, przepisana (C5)",
+    "new": "/metody/dfpp-tpe-afereza"
+  },
+  {
+    "old": "/dfpp-fertility-womens-health-indications-safety/",
+    "topic": "DFPP a płodność",
+    "decision": "Zdjąć (brak dowodów); wzmianka w ścieżce 3 jako przedmiot badań",
+    "new": "/z-czym-pomagamy/plodnosc-rezerwa-jajnikowa"
+  },
+  {
+    "old": "/dfpp-diabetes-complications-how-it-helps/",
+    "topic": "DFPP w cukrzycy",
+    "decision": "Zdjąć; wzmianka w tabeli wskazań DFPP jako badane",
+    "new": "/metody/dfpp-tpe-afereza"
+  },
+  {
+    "old": "/dfpp-in-neurology-indications-evidence-patient-benefits/",
+    "topic": "DFPP w neurologii",
+    "decision": "Zdjąć; TPE w neurologii opisane w metodzie z neurologiem",
+    "new": "/metody/dfpp-tpe-afereza"
+  },
+  {
+    "old": "/dfpp-lipid-disorders-ldl-lpa-triglycerides/",
+    "topic": "DFPP w zaburzeniach lipidowych",
+    "decision": "Przepisana jako ścieżka (temat 9)",
+    "new": "/z-czym-pomagamy/cholesterol-lpa-stan-zapalny"
+  },
+  {
+    "old": "/exosomes-prp-or-stem-cells-a-patients-guide/",
+    "topic": "Egzosomy, PRP czy komórki",
+    "decision": "Zachowana jako rozdział przewodnika lub artykuł",
+    "new": "/wiedza/egzosomy-prp-czy-komorki"
+  },
+  {
+    "old": "/diabetes-dfpp-vitamin-support-safety-benefits/",
+    "topic": "Cukrzyca, DFPP i witaminy",
+    "decision": "Zdjąć",
+    "new": "/metody/wlewy-dozylne"
+  },
+  {
+    "old": "/dfpp-gynecology-vitamin-therapy-indications-benefits/",
+    "topic": "DFPP w ginekologii i witaminy",
+    "decision": "Zdjąć",
+    "new": "/metody/wlewy-dozylne"
+  },
+  {
+    "old": "/hyperlipidemia-dfpp-vitamin-support-diet-care/",
+    "topic": "Hiperlipidemia, DFPP i witaminy",
+    "decision": "Połączona w ścieżkę 9",
+    "new": "/z-czym-pomagamy/cholesterol-lpa-stan-zapalny"
+  },
+  {
+    "old": "/neurology-dfpp-vitamin-therapy-safety-benefits/",
+    "topic": "Neurologia, DFPP i witaminy",
+    "decision": "Zdjąć",
+    "new": "/metody/wlewy-dozylne"
+  },
+  {
+    "old": "/am-i-a-candidate-for-stem-cell-therapy-novacell/",
+    "topic": "Czy jestem kandydatem",
+    "decision": "Włączona do ścieżki 21 (sekcja „Dla kogo”)",
+    "new": "/z-czym-pomagamy/terapie-komorkowe"
+  },
+  {
+    "old": "/procedure-day-prep-the-ultimate-patient-checklist/",
+    "topic": "Lista przed zabiegiem",
+    "decision": "Zachowana (temat 40)",
+    "new": "/jak-pracujemy/przygotowanie-do-zabiegu"
+  },
+  {
+    "old": "/dfpp-eligibility-who-qualifies-workup-decision-making/",
+    "topic": "Kwalifikacja do DFPP",
+    "decision": "Zachowana w opisie metody",
+    "new": "/metody/dfpp-tpe-afereza"
+  },
+  {
+    "old": "/dfpp-safety-risks-facts-myths/",
+    "topic": "Bezpieczeństwo DFPP, mity",
+    "decision": "Zachowana w opisie metody (FAQ)",
+    "new": "/metody/dfpp-tpe-afereza"
+  },
+  {
+    "old": "/dfpp-double-filtration-plasmapheresis/",
+    "topic": "DFPP (duplikat)",
+    "decision": "Usunąć",
+    "new": "/metody/dfpp-tpe-afereza"
+  },
+  {
+    "old": "/iv-vitamin-therapy-support-dfpp-stem-cells/",
+    "topic": "Wlewy jako wsparcie",
+    "decision": "Połączona w opis metody",
+    "new": "/metody/wlewy-dozylne"
+  },
+  {
+    "old": "/double-filtration-plasmapheresis-patient-faqs/",
+    "topic": "FAQ DFPP",
+    "decision": "Włączona do opisu metody",
+    "new": "/metody/dfpp-tpe-afereza"
+  },
+  {
+    "old": "/stem-cell-quality-compliance-collection-processing-and-monitoring-at-novacell/",
+    "topic": "Jakość i zgodność",
+    "decision": "Zdjąć do czasu dokumentów (ISSCR, GMP, FDA, EMA bez potwierdzenia); po potwierdzeniu krótka sekcja w temacie 21",
+    "new": "/z-czym-pomagamy/terapie-komorkowe"
+  },
+  {
+    "old": "/stem-cell-therapy-realistic-expectations-results-novacell/",
+    "topic": "Realistyczne oczekiwania",
+    "decision": "Zachować i przepisać jako artykuł",
+    "new": "/wiedza/realistyczne-oczekiwania-terapie-regeneracyjne"
+  },
+  {
+    "old": "/treatment-pathway-qualification-logistics-follow-up/",
+    "topic": "Ścieżka: kwalifikacja, logistyka, kontrola",
+    "decision": "Zastąpiona (temat 24 i 22)",
+    "new": "/jak-pracujemy"
+  },
+  {
+    "old": "/your-care-journey-consultation-comfort-follow-ups/",
+    "topic": "Twoja droga opieki",
+    "decision": "Zastąpiona (temat 24)",
+    "new": "/jak-pracujemy"
+  },
+  {
+    "old": "/after-stem-cell-therapy-recovery-rehab-follow-up/",
+    "topic": "Po terapii: rekonwalescencja",
+    "decision": "Zachowana w części (temat 40)",
+    "new": "/jak-pracujemy/przygotowanie-do-zabiegu"
+  },
+  {
+    "old": "/pbkm-novacell-how-biobanking-partnerships-elevate-safety-and-quality/",
+    "topic": "Partnerstwo z PBKM",
+    "decision": "Przepisać krótko w temacie 21 i 25 po potwierdzeniu zakresu umowy",
+    "new": "/z-czym-pomagamy/terapie-komorkowe"
+  }
+]

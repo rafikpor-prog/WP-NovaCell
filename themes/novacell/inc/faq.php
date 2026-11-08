@@ -8,7 +8,7 @@ defined( 'ABSPATH' ) || exit;
 
 function nc_theme_faq_extract( string $body ): array {
     $questions = array();
-    if ( ! preg_match( '~<h[2-4][^>]*>\s*(?:Pytania\s+i\s+odpowiedzi|FAQ|Questions\s+and\s+answers)\s*</h[2-4]>(.*?)(?=<h[2-4][^>]*>|\z)~isu', $body, $match ) ) {
+    if ( ! preg_match( '~<h[2-4][^>]*>\s*(?:Pytania\s+i\s+odpowiedzi|Frequently\s+asked\s+questions|FAQ|Questions\s+and\s+answers)\s*</h[2-4]>(.*?)(?=<h[2-4][^>]*>|\z)~isu', $body, $match ) ) {
         return array();
     }
     preg_match_all( '~<p[^>]*>(.*?)</p>~isu', $match[1], $items );
@@ -36,7 +36,7 @@ function nc_theme_faq_replace( string $body, string $lang ): string {
         $replacement .= '<div class="nc-faq-answer"><p>' . esc_html( $item['answer'] ) . '</p></div></details>';
     }
     $replacement .= '</section>';
-    return nc_theme_wrap_tables( (string) preg_replace_callback( '~<h[2-4][^>]*>\s*(?:Pytania\s+i\s+odpowiedzi|FAQ|Questions\s+and\s+answers)\s*</h[2-4]>(.*?)(?=<h[2-4][^>]*>|\z)~isu', static function () use ( $replacement ): string { return $replacement; }, nc_theme_html( $body ), 1 ), $lang );
+    return nc_theme_wrap_tables( (string) preg_replace_callback( '~<h[2-4][^>]*>\s*(?:Pytania\s+i\s+odpowiedzi|Frequently\s+asked\s+questions|FAQ|Questions\s+and\s+answers)\s*</h[2-4]>(.*?)(?=<h[2-4][^>]*>|\z)~isu', static function () use ( $replacement ): string { return $replacement; }, nc_theme_html( $body ), 1 ), $lang );
 }
 
 /** Horizontal scrolling of wide clinical tables with a keyboard-focusable region. */

@@ -207,7 +207,7 @@ final class Site_Builder {
         echo '<input type="hidden" name="action" value="nc_save_pages">';
         foreach ( $pages as $page ) {
             $id = sanitize_key( (string) ( $page['id'] ?? '' ) );
-            echo '<section class="nc-section-card"><div class="nc-card-head"><strong>' . esc_html( (string) $page['pl']['title'] ) . '</strong><button type="button" class="button nc-toggle" aria-expanded="false">Edytuj</button></div><div class="nc-card-details" hidden>';
+            echo '<section class="nc-section-card" data-nc-page="' . esc_attr( $id ) . '"><div class="nc-card-head"><strong>' . esc_html( (string) $page['pl']['title'] ) . '</strong><button type="button" class="button nc-toggle" aria-expanded="false">Edytuj</button></div><div class="nc-card-details" hidden>';
             self::language_tabs( $id, (array) $page, 'pages', false );
             echo '</div></section>';
         }
