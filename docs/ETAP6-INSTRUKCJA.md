@@ -87,3 +87,11 @@ Zgodnie z życzeniem właściciela, Etap 6 włącza **publiczny podgląd** po ak
 - Nie wykonano testu na docelowym hostingu, całego audytu WCAG 2.2 AA ani testów Core Web Vitals/PageSpeed Insights. Wymagają one uruchomionego WordPress oraz pomiarów w przeglądarce i Lighthouse.
 - Nie dodano nieudokumentowanych tłumaczeń medycznych EN; istniejące tłumaczenia są zachowane, pozostałe wymagają redakcji i przeglądu przez specjalistę.
 - Dane z załączonego Worda i cennik roboczy są dołączone tylko do **paczki instalacyjnej przeznaczonej dla właściciela**. Nie są publikowane w publicznym GitHub.
+
+## Uzupełnienie 8 listopada 2026 — widoczność panelu w Gutenbergu
+
+- W menu NOVACELL Manager dostępne jest też podmenu **Visual Editor**.
+- Przycisk **Otwórz NOVACELL Visual Editor** kieruje do szkicu w Gutenbergu z `novacell_visual=1`; w zgodnym edytorze panel boczny otwiera się automatycznie.
+- Na liście **Strony** i **Wpisy** dostępny jest link **Włącz Visual Editor** przy uprawnionych dokumentach.
+- Jeśli inny plugin wyłączył edytor blokowy albo konkretna wersja nie udostępnia API panelu, użyj ręcznie menu paneli Gutenberg.
+- Aktualizacja zachowuje treści i nie nadpisuje istniejącej strony głównej. Nazwy paneli nadal pozostają slugami `wp-admin/admin.php?page=...`, nie publicznymi adresami.
