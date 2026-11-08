@@ -91,7 +91,7 @@ register_activation_hook( __FILE__, 'nc_visual_ensure_canvas' );
 
 function nc_visual_edit_url(): string {
     $id = nc_visual_ensure_canvas();
-    return $id ? add_query_arg( 'novacell_visual', '1', admin_url( 'post.php?post=' . $id . '&action=edit' ) ) : admin_url( 'edit.php?post_type=page' );
+    return $id ? add_query_arg( array( 'novacell_visual' => '1' ), admin_url( 'post.php?post=' . $id . '&action=edit' ) ) : admin_url( 'edit.php?post_type=page' );
 }
 
 add_action( 'admin_menu', static function (): void {
@@ -157,7 +157,7 @@ function nc_visual_row_action( array $actions, \WP_Post $post ): array {
     }
     $url = get_edit_post_link( $post->ID, 'raw' );
     if ( $url ) {
-        $actions['novacell-visual'] = '<a href="' . esc_url( add_query_arg( 'novacell_visual', '1', $url ) ) . '">Włącz Visual Editor</a>';
+        $actions['novacell-visual'] = '<a href="' . esc_url( add_query_arg( array( 'novacell_visual' => '1' ), $url ) ) . '">Włącz Visual Editor</a>';
     }
     return $actions;
 }
