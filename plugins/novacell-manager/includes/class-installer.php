@@ -5,7 +5,7 @@ namespace NovaCell\Manager;
 defined( 'ABSPATH' ) || exit;
 
 final class Installer {
-    private const SCHEMA_VERSION = '7';
+    private const SCHEMA_VERSION = '8';
 
     /** Uprawnienia wyłącznie dla administratora na etapie budowy procesu zatwierdzania. */
     public static function capabilities(): array {

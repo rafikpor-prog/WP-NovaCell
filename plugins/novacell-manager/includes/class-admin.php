@@ -31,13 +31,16 @@ final class Admin {
             'Testy uruchomieniowe HTTP' => 'novacell-readiness',
             'Menu główne PL / EN' => 'novacell-main-menu',
             'NOVACELL Visual Editor' => 'novacell-visual-editor',
+            'Znajdź każdą treść' => 'novacell-content-map',
+            'Redakcja wersji angielskiej' => 'novacell-en-editorial',
+            'Naprawa przyjaznych adresów' => 'novacell-repair-urls',
         );
         foreach ( $nav as $label => $slug ) {
             echo '<a class="button button-secondary" href="' . esc_url( admin_url( 'admin.php?page=' . $slug ) ) . '">' . esc_html( $label ) . '</a>';
         }
         echo '</div>';
-        // Verify that the actual WordPress admin page hooks exist, rather than
-        // assuming that a displayed link guarantees the screen is accessible.
+        // WordPress musi zarejestrować rzeczywisty hook ekranu, nie tylko odnośnik.
+        // Kontrola działa bez zmieniania uprawnień użytkowników i ról.
         if ( function_exists( 'get_plugin_page_hookname' ) && function_exists( 'has_action' ) ) {
             $screens = array(
                 'novacell-pages', 'novacell-home-builder', 'novacell-starter',

@@ -14,7 +14,7 @@ return array(
     '/womens-health-2/' => '/z-czym-pomagamy/menopauza/',
     '/mens-health/' => '/z-czym-pomagamy/hormony-mezczyzny/',
     '/knowledge-base/' => '/wiedza/',
-    '/home/' => '//',
+    '/home/' => '/',
     '/patient-journey/' => '/jak-pracujemy/',
     '/fees-insurance/' => '/cennik/',
     '/therapy-services/' => '/metody/',

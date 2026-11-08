@@ -225,7 +225,24 @@ function nc_theme_display_route( string $key, string $lang ): void {
 
 function nc_theme_route_head( string $title, string $lead, string $lang ): void {
     echo '<section class="nc-page-hero"><div class="nc-shell">';
-    echo '<nav class="nc-breadcrumbs" aria-label="' . esc_attr( 'en' === $lang ? 'Breadcrumb' : 'Ścieżka nawigacji' ) . '"><ol><li><a href="' . esc_url( nc_theme_link( 'home', $lang ) ) . '">' . esc_html( 'en' === $lang ? 'Home' : 'Strona główna' ) . '</a></li><li aria-current="page">' . esc_html( $title ) . '</li></ol></nav>';
+    echo '<nav class="nc-breadcrumbs" aria-label="' . esc_attr( 'en' === $lang ? 'Breadcrumb' : 'Ścieżka nawigacji' ) . '"><ol><li><a href="' . esc_url( nc_theme_link( 'home', $lang ) ) . '">' . esc_html( 'en' === $lang ? 'Home' : 'Strona główna' ) . '</a></li>';
+    $current_key = nc_theme_route_key();
+    $routes = nc_theme_routes();
+    $path = (string) ( $routes[ $current_key ][ $lang ] ?? '' );
+    $parents = array(
+        '/z-czym-pomagamy/' => array('help-index','Z czym możemy Ci pomóc?','How we can help'),
+        '/chce-zadbac-o-zdrowie/' => array('prevention-index','Chcę zadbać o zdrowie','Preventive health'),
+        '/wyglad-i-estetyka/' => array('aesthetics-index','Wygląd i estetyka','Aesthetics'),
+        '/metody/' => array('methods-index','Metody leczenia','Treatment methods'),
+    );
+    $pl_path = (string) ( $routes[ $current_key ]['pl'] ?? $path );
+    foreach ( $parents as $prefix => $parent ) {
+        if ( $pl_path !== $prefix && str_starts_with( $pl_path, $prefix ) ) {
+            echo '<li><a href="' . esc_url( nc_theme_link( $parent[0], $lang ) ) . '">' . esc_html( $parent['en' === $lang ? 2 : 1] ) . '</a></li>';
+            break;
+        }
+    }
+    echo '<li aria-current="page">' . esc_html( $title ) . '</li></ol></nav>';
     echo '<p class="nc-eyebrow">NOVACELL · WARSZAWA</p><h1>' . esc_html( $title ) . '</h1><p class="nc-page-lead">' . esc_html( $lead ) . '</p>';
     echo '<a class="nc-back-link" href="' . esc_url( nc_theme_link( 'home', $lang ) ) . '">' . esc_html( 'en' === $lang ? 'Back to home' : 'Wróć na stronę główną' ) . '</a></div></section>';
 }
@@ -301,14 +318,25 @@ function nc_theme_display_full_document( string $source, string $lang ): void {
 
 /** Katalogi zawierają wyłącznie opublikowane rekordy w CMS. */
 function nc_theme_display_archive( string $key, string $lang ): void {
-    $title = array(
+    $defaults = array(
         'help-index' => array( 'Z czym możemy Ci pomóc?', 'How can we help?' ),
         'prevention-index' => array( 'Chcę zadbać o zdrowie', 'Preventive health' ),
         'aesthetics-index' => array( 'Wygląd i estetyka', 'Aesthetics and appearance' ),
         'methods-index' => array( 'Metody leczenia A–Z', 'Treatment methods A–Z' ),
     );
     $is_en = 'en' === $lang;
-    nc_theme_route_head( $title[ $key ][ $is_en ? 1 : 0 ], $is_en ? 'Explore the available descriptions and clinical pathways.' : 'Poznaj tematy i metody opisane przez zespół kliniki.', $lang );
+    $archives = class_exists( '\NovaCell\Manager\Navigation_Hub' )
+        ? \NovaCell\Manager\Navigation_Hub::archives()
+        : (array)get_option('nc_archive_pages',array());
+    $info = (array)( $archives[ $key ][ $lang ] ?? array() );
+    $headline = (string)( $info['title'] ?? $defaults[ $key ][ $is_en ? 1 : 0 ] );
+    $lead = (string)( $info['lead'] ?? ( $is_en ? 'Explore clinical information and care pathways.' : 'Poznaj ścieżki opieki i metody.' ) );
+    nc_theme_route_head( $headline, $lead, $lang );
+    echo '<section class="nc-section"><div class="nc-shell">';
+    if ( !empty($info['body']) ) {
+        echo '<div class="nc-richtext nc-archive-intro">' . nc_theme_html( (string)$info['body'] ) . '</div>';
+    }
+    echo '</div></section>';
     $list = (array) get_option( 'nc_full_route_index', array() );
     echo '<section class="nc-section"><div class="nc-shell nc-card-grid nc-card-grid--problems">';
     foreach ( $list as $source => $route ) {

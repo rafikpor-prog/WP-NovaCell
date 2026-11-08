@@ -2,7 +2,7 @@
 /** Główne funkcje Theme NOVACELL. @package NovaCellTheme */
 defined( 'ABSPATH' ) || exit;
 
-define( 'NC_THEME_VERSION', '0.5.0' );
+define( 'NC_THEME_VERSION', '0.6.0' );
 define( 'NC_THEME_PATH', get_template_directory() );
 
 require_once NC_THEME_PATH . '/inc/routes.php';
@@ -17,7 +17,7 @@ add_action( 'admin_menu', static function (): void {
         if ( class_exists( '\NovaCell\Manager\Site_Builder' ) ) {
             \NovaCell\Manager\Site_Builder::home_editor();
         } else {
-            echo '<div class="wrap"><h1>NOVACELL</h1><p>Aktywuj najpierw NovaCell Manager 0.6.0, aby zarządzać sekcjami i językami.</p></div>';
+            echo '<div class="wrap"><h1>NOVACELL</h1><p>Aktywuj najpierw NovaCell Manager 0.7.0, aby zarządzać sekcjami i językami.</p></div>';
         }
     } );
 } );
