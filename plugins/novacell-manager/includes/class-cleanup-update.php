@@ -13,7 +13,7 @@ final class Cleanup_Update {
         if ( ! $seed ) { return array( 'error' => 'Brak danych startowych.' ); }
         $source = Full_Import::data();
         if ( $source && ( $repeat_import || '5' !== (string) get_option( 'nc_full_import_version', '' ) ) ) {
-            $result = Full_Import::import();
+            $result = Full_Import::import( $repeat_import );
             if ( ! empty( $result['error'] ) ) { return array( 'error' => $result['error'] ); }
         }
         $report = array( 'sections' => 0, 'pages' => 0, 'seed_posts' => 0 );
