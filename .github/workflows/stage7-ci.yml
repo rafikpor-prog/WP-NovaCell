@@ -39,10 +39,9 @@ jobs:
         run: |
           set -euo pipefail
           php tests/test-admin-menu-order.php
-          php tests/test-stage5.php
-          php tests/test-stage6.php
-          php tests/test-content-cleanup.php
-          php tests/test-stage7.php
+          # Stage5/Stage6/full EN import tests depend on protected owner-only seed files.
+          # Run those against the private installable ZIP in local release tests.
+          php tests/test-stage7-public.php
       - name: Protected medical source must not be tracked
         run: |
           set -euo pipefail
