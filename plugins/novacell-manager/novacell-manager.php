@@ -2,8 +2,8 @@
 /**
  * Plugin Name: NOVACELL Manager
  * Plugin URI: https://github.com/rafikpor-prog/WP-NovaCell
- * Description: Panel zarządzania treściami kliniki NOVACELL. Etap 6: centralny panel, diagnostyka adresów, dwujęzyczny CMS i publiczny podgląd.
- * Version: 0.6.0
+ * Description: Panel zarządzania treściami kliniki NOVACELL. Etap 6.1: naprawa uprawnień menu administracyjnego, dwujęzyczny CMS i publiczny podgląd.
+ * Version: 0.6.1
  * Requires at least: 6.5
  * Requires PHP: 8.0
  * Text Domain: novacell-manager
@@ -11,7 +11,7 @@
 
 defined( 'ABSPATH' ) || exit;
 
-define( 'NC_MANAGER_VERSION', '0.6.0' );
+define( 'NC_MANAGER_VERSION', '0.6.1' );
 define( 'NC_MANAGER_FILE', __FILE__ );
 define( 'NC_MANAGER_PATH', plugin_dir_path( __FILE__ ) );
 
