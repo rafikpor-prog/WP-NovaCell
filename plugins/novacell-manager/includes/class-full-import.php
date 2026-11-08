@@ -67,6 +67,7 @@ final class Full_Import {
     private static function write_item( array $item, string $type, string $key ): array {
         $id = self::previously_imported( $type, $key, $item );
         $created = ! $id;
+        $content_changed = $created;
         $content = wp_kses_post( (string) ( $item['pl_body'] ?? $item['description'] ?? '' ) );
         $title = sanitize_text_field( (string) ( $item['pl_title'] ?? '' ) );
         if ( ! $title ) { return array( 0, false, false ); }
@@ -85,7 +86,12 @@ final class Full_Import {
             $update = array( 'ID' => $id );
             if ( 'publish' !== get_post_status( $id ) ) { $update['post_status'] = 'publish'; }
             if ( self::should_update_body( $id, $item ) ) {
-                $update['post_content'] = $content;
+                $previous = (string) get_post_field( 'post_content', $id );
+                if ( $previous !== $content ) {
+                    $update['post_content'] = $content;
+                    $content_changed = true;
+                }
+                // Stable snapshot hash; manual edits remain protected by the importer's hash check.
                 update_post_meta( $id, '_nc_full_import_hash', hash( 'sha256', $content ) );
             }
             if ( count( $update ) > 1 ) {
@@ -95,7 +101,10 @@ final class Full_Import {
         }
         update_post_meta( $id, '_nc_full_source_key', $key );
         update_post_meta( $id, '_nc_source_url', esc_url_raw( (string) ( $item['source_url'] ?? '' ) ) );
-        update_post_meta( $id, '_nc_editorial_status', 'requires_review' );
+        // Do not revoke a valid medical approval on an identical re-import.
+        if ( $content_changed || ! metadata_exists( 'post', $id, '_nc_editorial_status' ) ) {
+            update_post_meta( $id, '_nc_editorial_status', 'requires_review' );
+        }
         update_post_meta( $id, '_nc_source_document', 'NOVACELL 2026-11-05 v3' );
         update_post_meta( $id, '_nc_english_complete', ! empty( $item['english_complete'] ) ? '1' : '0' );
         if ( ! metadata_exists( 'post', $id, 'nc_en_title' ) ) {
@@ -173,7 +182,9 @@ final class Full_Import {
                 'fields'=>'ids','meta_query'=>array(array('key'=>'_nc_seed_key','compare'=>'EXISTS')) ) );
             foreach ( $ids as $id ) {
                 if ( 'publish' !== get_post_status( $id ) ) { wp_update_post( array('ID'=>$id,'post_status'=>'publish') ); }
-                update_post_meta( $id, '_nc_editorial_status', 'requires_review' );
+                if ( ! metadata_exists( 'post', $id, '_nc_editorial_status' ) ) {
+                    update_post_meta( $id, '_nc_editorial_status', 'requires_review' );
+                }
             }
         }
     }

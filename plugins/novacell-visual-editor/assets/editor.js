@@ -1,4 +1,4 @@
-/* NOVACELL Visual Editor 0.1.0 — an extension of Gutenberg, not a second page format. */
+/* NOVACELL Visual Editor 0.2.0 — an extension of Gutenberg, not a second page format. */
 (function (wp) {
   'use strict';
   if (!wp || !wp.plugins || !wp.element || !wp.blocks || !wp.data || !wp.components || !wp.blockEditor) { return; }
@@ -312,8 +312,30 @@
     },
     save: function () { return null; }
   });
+  var MoreMenuItem = (wp.editor && wp.editor.PluginSidebarMoreMenuItem) || (wp.editPost && wp.editPost.PluginSidebarMoreMenuItem);
+  function VisualPlugin() {
+    return el(wp.element.Fragment, null,
+      MoreMenuItem ? el(MoreMenuItem, { target: 'novacell-visual', icon: 'layout' }, 'Otwórz NOVACELL Visual Editor') : null,
+      el(Sidebar, { name: 'novacell-visual', title: 'NOVACELL Visual Editor', icon: 'layout' }, el(SidebarContent))
+    );
+  }
+  // When launched from the visible NOVACELL menu, reveal the Gutenberg sidebar.
+  // The normal editor still has the standard manual Plugin sidebar control.
+  if (settings.autoOpen) {
+    var retry = 0;
+    var openNovaCellSidebar = function () {
+      try {
+        var editPost = wp.data.dispatch('core/edit-post');
+        if (editPost && typeof editPost.openGeneralSidebar === 'function') {
+          editPost.openGeneralSidebar('novacell-visual-editor/novacell-visual');
+          return;
+        }
+      } catch (error) { /* Older editor variant: use the native sidebar menu. */ }
+      if (++retry < 10) { window.setTimeout(openNovaCellSidebar, 400); }
+    };
+    window.setTimeout(openNovaCellSidebar, 300);
+  }
   wp.plugins.registerPlugin('novacell-visual-editor', {
-    icon: 'layout',
-    render: function () { return el(Sidebar, { name: 'novacell-visual', title: 'NOVACELL Visual Editor', icon: 'layout' }, el(SidebarContent)); }
+    icon: 'layout', render: VisualPlugin
   });
 })(window.wp);

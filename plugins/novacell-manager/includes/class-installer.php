@@ -5,7 +5,7 @@ namespace NovaCell\Manager;
 defined( 'ABSPATH' ) || exit;
 
 final class Installer {
-    private const SCHEMA_VERSION = '5';
+    private const SCHEMA_VERSION = '6';
 
     /** Uprawnienia wyłącznie dla administratora na etapie budowy procesu zatwierdzania. */
     public static function capabilities(): array {
@@ -49,6 +49,12 @@ final class Installer {
         if ( ! get_option( 'nc_stage5_public_visibility_migrated', false ) ) {
             update_option( 'nc_public_preview', '1', false );
             update_option( 'nc_stage5_public_visibility_migrated', '1', false );
+        }
+        // Etap 6: świadoma prośba właściciela o publiczne wyświetlanie danych
+        // w czasie prac. Tego ustawienia można później ponownie wyłączyć.
+        if ( ! get_option( 'nc_stage6_public_preview_migrated', false ) ) {
+            update_option( 'nc_public_preview', '1', false );
+            update_option( 'nc_stage6_public_preview_migrated', '1', false );
         }
         if ( false === get_option( 'nc_route_mode', false ) ) {
             update_option( 'nc_route_mode', 'safe', false );

@@ -4,6 +4,7 @@ defined( 'ABSPATH' ) || exit;
 $lang = nc_theme_lang();
 $en = 'en' === $lang;
 $current = nc_theme_route_key() ?: 'home';
+$english_target = nc_theme_translation_available( $current, 'en' ) ? $current : 'home';
 ?><!doctype html>
 <html <?php language_attributes(); ?>>
 <head>
@@ -17,7 +18,7 @@ $current = nc_theme_route_key() ?: 'home';
 <header class="nc-header">
   <div class="nc-shell nc-header__inner">
     <a class="nc-logo" href="<?php echo esc_url( nc_theme_link( 'home', $lang ) ); ?>" aria-label="<?php echo esc_attr( $en ? 'NOVACELL home' : 'NOVACELL, strona główna' ); ?>">
-      <img src="<?php echo esc_url( get_template_directory_uri() . '/assets/images/novacell-logo-gradient.png' ); ?>" width="250" height="36" alt="NOVACELL">
+      <img src="<?php echo esc_url( get_template_directory_uri() . '/assets/images/novacell-logo-gradient.png' ); ?>" width="250" height="36" alt="NOVACELL" decoding="async" loading="eager">
     </a>
     <button class="nc-menu-toggle" type="button" aria-controls="nc-primary-nav" aria-expanded="false"><span class="nc-menu-toggle__lines" aria-hidden="true"></span><span><?php echo esc_html( $en ? 'Menu' : 'Menu' ); ?></span></button>
     <nav id="nc-primary-nav" class="nc-nav" aria-label="<?php echo esc_attr( $en ? 'Main navigation' : 'Menu główne' ); ?>">
@@ -35,7 +36,7 @@ $current = nc_theme_route_key() ?: 'home';
       <div class="nc-language-switch" role="group" aria-label="<?php echo esc_attr( $en ? 'Language' : 'Wybór języka' ); ?>">
         <a lang="pl" hreflang="pl" href="<?php echo esc_url( nc_theme_link( $current, 'pl' ) ); ?>"<?php echo ! $en ? ' aria-current="page"' : ''; ?>>PL</a>
         <span aria-hidden="true">|</span>
-        <a lang="en" hreflang="en" href="<?php echo esc_url( nc_theme_link( $current, 'en' ) ); ?>"<?php echo $en ? ' aria-current="page"' : ''; ?>>EN</a>
+        <a lang="en" hreflang="en" href="<?php echo esc_url( nc_theme_link( $english_target, 'en' ) ); ?>" aria-label="<?php echo esc_attr( $english_target === $current ? 'English version' : 'English homepage: this article has no English translation' ); ?>"<?php echo $en ? ' aria-current="page"' : ''; ?>>EN</a>
       </div>
       <a class="nc-header-cta" href="<?php echo esc_url( nc_theme_link( 'contact', $lang ) ); ?>"><?php echo esc_html( $en ? 'Contact us' : 'Umów rozmowę' ); ?></a>
     </div>

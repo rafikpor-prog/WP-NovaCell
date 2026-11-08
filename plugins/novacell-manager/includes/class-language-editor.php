@@ -81,8 +81,13 @@ final class Language_Editor {
             ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) ) { return; }
         if ( ! isset( $_POST['nc_lang'] ) || ! is_array( $_POST['nc_lang'] ) ) { return; }
         $submitted = wp_unslash( $_POST['nc_lang'] );
+        $material_change = false;
         if ( isset( $submitted['en_title'] ) && is_string( $submitted['en_title'] ) ) {
-            update_post_meta( $id, 'nc_en_title', sanitize_text_field( $submitted['en_title'] ) );
+            $new_title = sanitize_text_field( $submitted['en_title'] );
+            if ( $new_title !== (string) get_post_meta( $id, 'nc_en_title', true ) ) {
+                $material_change = true;
+                update_post_meta( $id, 'nc_en_title', $new_title );
+            }
         }
         $updated = array('ID'=>$id);
         foreach ( self::fields( $post->post_type ) as $field => $title ) {
@@ -90,11 +95,24 @@ final class Language_Editor {
             foreach ( array( 'pl', 'en' ) as $lang ) {
                 if ( ! isset( $submitted[ $field ][ $lang ] ) || ! is_string( $submitted[ $field ][ $lang ] ) ) { continue; }
                 $value = wp_kses_post( $submitted[ $field ][ $lang ] );
-                if ( 'pl' === $lang && 'body' === $field ) { $updated['post_content'] = $value; }
-                elseif ( 'pl' === $lang && 'lead' === $field ) { $updated['post_excerpt'] = sanitize_textarea_field( wp_strip_all_tags( $value ) ); }
-                else {
+                if ( 'pl' === $lang && 'body' === $field ) {
+                    if ( $value !== $post->post_content ) {
+                        $updated['post_content'] = $value;
+                        $material_change = true;
+                    }
+                } elseif ( 'pl' === $lang && 'lead' === $field ) {
+                    $new_lead = sanitize_textarea_field( wp_strip_all_tags( $value ) );
+                    if ( $new_lead !== $post->post_excerpt ) {
+                        $updated['post_excerpt'] = $new_lead;
+                        $material_change = true;
+                    }
+                } else {
                     $key = 'nc_' . ( 'en' === $lang ? 'en_' : '' ) . ( 'lead' === $field && 'en' === $lang ? 'excerpt' : $field );
-                    update_post_meta( $id, $key, 'lead' === $field ? sanitize_textarea_field( wp_strip_all_tags( $value ) ) : $value );
+                    $new_value = 'lead' === $field ? sanitize_textarea_field( wp_strip_all_tags( $value ) ) : $value;
+                    if ( $new_value !== (string) get_post_meta( $id, $key, true ) ) {
+                        $material_change = true;
+                        update_post_meta( $id, $key, $new_value );
+                    }
                 }
             }
         }
@@ -102,7 +120,11 @@ final class Language_Editor {
             $saving = true;
             wp_update_post( wp_slash( $updated ) );
             $saving = false;
-            // Manualna edycja jest zachowywana przy następnym imporcie.
+        }
+        if ( $material_change ) {
+            // Any substantive change invalidates the prior record-level medical approval.
+            update_post_meta( $id, '_nc_editorial_status', 'requires_review' );
+            // Manual changes must never be silently overwritten by the next source import.
             delete_post_meta( $id, '_nc_full_import_hash' );
         }
     }

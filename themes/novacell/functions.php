@@ -2,20 +2,22 @@
 /** Główne funkcje Theme NOVACELL. @package NovaCellTheme */
 defined( 'ABSPATH' ) || exit;
 
-define( 'NC_THEME_VERSION', '0.4.0' );
+define( 'NC_THEME_VERSION', '0.5.0' );
 define( 'NC_THEME_PATH', get_template_directory() );
 
 require_once NC_THEME_PATH . '/inc/routes.php';
+require_once NC_THEME_PATH . '/inc/legacy-redirects.php';
 require_once NC_THEME_PATH . '/inc/render.php';
 require_once NC_THEME_PATH . '/inc/faq.php';
 require_once NC_THEME_PATH . '/inc/seo.php';
+require_once NC_THEME_PATH . '/inc/sitemap.php';
 
 add_action( 'admin_menu', static function (): void {
     add_theme_page( 'NOVACELL: edycja strony głównej', 'NOVACELL: strona główna', 'manage_options', 'nc-theme-home', static function (): void {
         if ( class_exists( '\NovaCell\Manager\Site_Builder' ) ) {
             \NovaCell\Manager\Site_Builder::home_editor();
         } else {
-            echo '<div class="wrap"><h1>NOVACELL</h1><p>Aktywuj najpierw NovaCell Manager 0.5.0, aby zarządzać sekcjami i językami.</p></div>';
+            echo '<div class="wrap"><h1>NOVACELL</h1><p>Aktywuj najpierw NovaCell Manager 0.6.0, aby zarządzać sekcjami i językami.</p></div>';
         }
     } );
 } );
@@ -46,7 +48,11 @@ add_filter( 'language_attributes', static function ( string $output ): string {
 
 // Staging content is unapproved. Ensure that a misconfigured preview site is never indexed.
 add_filter( 'wp_robots', static function ( array $robots ): array {
-    if ( ! (bool) get_option( 'nc_site_approved', false ) ) {
+    $key = nc_theme_route_key();
+    $untranslated = $key && 'en' === nc_theme_lang() && ! nc_theme_translation_available( $key, 'en' );
+    $record = nc_theme_public_record();
+    $unreviewed = $record && 'approved' !== (string) get_post_meta( $record->ID, '_nc_editorial_status', true );
+    if ( ! (bool) get_option( 'nc_site_approved', false ) || $untranslated || $unreviewed ) {
         $robots['noindex'] = true;
         $robots['nofollow'] = true;
         unset( $robots['index'], $robots['follow'] );
@@ -55,7 +61,7 @@ add_filter( 'wp_robots', static function ( array $robots ): array {
 } );
 
 add_action( 'send_headers', static function (): void {
-    if ( ! (bool) get_option( 'nc_site_approved', false ) && ! headers_sent() ) {
+    if ( ( ! (bool) get_option( 'nc_site_approved', false ) || ( nc_theme_route_key() && 'en' === nc_theme_lang() && ! nc_theme_translation_available( nc_theme_route_key(), 'en' ) ) ) && ! headers_sent() ) {
         header( 'X-Robots-Tag: noindex, nofollow', true );
     }
 } );
@@ -96,7 +102,7 @@ add_action( 'wp_head', static function (): void {
     if ( 0 === strpos( $key, 'ncfull-' ) ) {
         $source = substr( $key, 7 );
         $index = (array) get_option( 'nc_full_route_index', array() );
-        if ( empty( $index[ $source ]['en_complete'] ) ) { return; }
+        if ( ! nc_theme_translation_available( $key, 'en' ) ) { return; }
     }
     foreach ( array( 'pl', 'en' ) as $lang ) {
         $url = nc_theme_link( $key, $lang );

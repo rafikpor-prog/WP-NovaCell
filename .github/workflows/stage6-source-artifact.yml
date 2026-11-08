@@ -1,0 +1,34 @@
+name: NOVACELL Stage 6 Source Bundle
+
+on:
+  push:
+    branches: [feature/etap6-hardening-release]
+  workflow_dispatch:
+  pull_request:
+    branches: [feature/etap5-manager-theme-visual, main]
+
+permissions:
+  contents: read
+
+jobs:
+  source-bundle:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Package current public sources
+        run: |
+          mkdir -p stage6-public
+          cp -R plugins stage6-public/
+          cp -R themes stage6-public/
+          cp -R docs stage6-public/
+          cp -R releases stage6-public/
+          cp -R tests stage6-public/
+          rm -rf stage6-public/plugins/novacell-manager/data
+          find stage6-public -type f -name '*.private.json' -delete
+          test ! -d stage6-public/plugins/novacell-manager/data
+          tar -czf stage6-public-sources.tar.gz -C stage6-public .
+      - uses: actions/upload-artifact@v4
+        with:
+          name: novacell-stage6-public-source
+          path: stage6-public-sources.tar.gz
+          retention-days: 7

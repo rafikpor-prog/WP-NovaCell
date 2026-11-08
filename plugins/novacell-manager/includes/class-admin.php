@@ -18,7 +18,26 @@ final class Admin {
         }
         echo '<div class="wrap">';
         echo '<h1>NOVACELL Manager <small style="font-weight:normal">' . esc_html( NC_MANAGER_VERSION ) . '</small></h1>';
-        echo '<p>System zarządzania treściami NOVACELL. Obecna wersja nie publikuje danych na stronie internetowej.</p>';
+        echo '<p>Centralny system obsługi NOVACELL. <strong>Wersja publikacyjna WordPress i zatwierdzenie kliniczne to odrębne statusy.</strong></p>';
+        echo '<h2>Otwórz właściwy ekran</h2><p>Nie wpisuj skrótów typu <code>/novacell-pages</code> jako adresu strony. Wewnętrzne ekrany działają w <code>wp-admin/admin.php?page=...</code>.</p>';
+        echo '<div class="nc-admin-shortcuts" style="display:flex;flex-wrap:wrap;gap:10px;margin:18px 0 24px">';
+        $nav = array(
+            'Strona główna: sekcje PL / EN' => 'novacell-home-builder',
+            'Wszystkie podstrony PL / EN' => 'novacell-pages',
+            'Import materiałów startowych' => 'novacell-starter',
+            'Import pełnych treści' => 'novacell-full-import',
+            'Widoczność publiczna' => 'novacell-preview-settings',
+            'Trasy i podgląd (404)' => 'novacell-diagnostics',
+            'Testy uruchomieniowe HTTP' => 'novacell-readiness',
+            'Menu główne PL / EN' => 'novacell-main-menu',
+            'NOVACELL Visual Editor' => 'novacell-visual-editor',
+        );
+        foreach ( $nav as $label => $slug ) {
+            echo '<a class="button button-secondary" href="' . esc_url( admin_url( 'admin.php?page=' . $slug ) ) . '">' . esc_html( $label ) . '</a>';
+        }
+        echo '</div>';
+        echo '<h2>Rejestry danych kliniki</h2>';
+        
         echo '<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px;max-width:1200px;margin:20px 0">';
         foreach ( Content_Types::types() as $type => $label ) {
             $count = wp_count_posts( $type );
@@ -30,7 +49,6 @@ final class Admin {
             echo '<a class="button button-secondary" href="' . esc_url( $url ) . '">Zarządzaj</a></div>';
         }
         echo '</div>';
-        echo '<p><strong>Uwaga:</strong> ceny, statusy metod i treści medyczne wymagają zatwierdzenia przed publikacją. ';
-        echo 'Wersja 0.1.1 służy do przygotowania bazy informacji i testów na środowisku staging.</p></div>';
+        echo '<p><strong>Podgląd:</strong> po włączeniu w ustawieniach widoczności materiały mogą być publicznie przeglądane, lecz nie jest to równoznaczne z ich zatwierdzeniem medycznym. Treści niezatwierdzone pozostają noindex.</p></div>';
     }
 }
