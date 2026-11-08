@@ -1,0 +1,52 @@
+name: NOVACELL Stage 7 Code Quality
+
+on:
+  push:
+    branches:
+      - feature/manager-0.7.0-editor-links-en-archive-routing
+  pull_request:
+    branches:
+      - feature/manager-0.6.2-patient-text-cleanup
+      - main
+
+permissions:
+  contents: read
+
+jobs:
+  lint-and-regression:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        php: ['8.0', '8.4']
+    steps:
+      - uses: actions/checkout@v4
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php }}
+          coverage: none
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: PHP syntax
+        run: |
+          set -euo pipefail
+          find plugins/novacell-manager themes/novacell -name '*.php' -type f -print0 | xargs -0 -n1 php -l
+      - name: JS syntax
+        run: |
+          set -euo pipefail
+          find plugins/novacell-manager themes/novacell -name '*.js' -type f -print0 | xargs -0 -n1 node --check
+      - name: Regression tests
+        run: |
+          set -euo pipefail
+          php tests/test-admin-menu-order.php
+          php tests/test-stage5.php
+          php tests/test-stage6.php
+          php tests/test-content-cleanup.php
+          php tests/test-stage7.php
+      - name: Protected medical source must not be tracked
+        run: |
+          set -euo pipefail
+          if git ls-files | grep -E '^plugins/novacell-manager/data/|\.private\.json$'; then
+            echo "Private clinical seed cannot be committed to public GitHub"
+            exit 1
+          fi
