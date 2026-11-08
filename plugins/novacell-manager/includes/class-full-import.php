@@ -9,7 +9,8 @@ namespace NovaCell\Manager;
 defined( 'ABSPATH' ) || exit;
 
 final class Full_Import {
-    private const IMPORT_VERSION = '4';
+    private const IMPORT_VERSION = '5';
+    public const CLEANUP_VERSION = 'patient-facing-clean-v1-2026-11-08';
 
     public static function data(): array {
         $path = NC_MANAGER_PATH . 'data/full-content.php';
@@ -64,10 +65,12 @@ final class Full_Import {
         return '' === trim( $old );
     }
 
-    private static function write_item( array $item, string $type, string $key ): array {
+    private static function write_item( array $item, string $type, string $key, bool $force = false ): array {
         $id = self::previously_imported( $type, $key, $item );
         $created = ! $id;
         $content_changed = $created;
+        // Explicit owner-requested correction of source-imported descriptions.
+        $replace_source_copy = ! $created && ( $force || (string) get_post_meta( $id, '_nc_clean_content_version', true ) !== self::CLEANUP_VERSION );
         $content = wp_kses_post( (string) ( $item['pl_body'] ?? $item['description'] ?? '' ) );
         $title = sanitize_text_field( (string) ( $item['pl_title'] ?? '' ) );
         if ( ! $title ) { return array( 0, false, false ); }
@@ -85,7 +88,22 @@ final class Full_Import {
         } else {
             $update = array( 'ID' => $id );
             if ( 'publish' !== get_post_status( $id ) ) { $update['post_status'] = 'publish'; }
-            if ( self::should_update_body( $id, $item ) ) {
+            if ( $replace_source_copy ) {
+                // Reversible backup before overwriting even a manually modified source copy.
+                if ( ! metadata_exists( 'post', $id, '_nc_cleanup_backup_20261108' ) ) {
+                    update_post_meta( $id, '_nc_cleanup_backup_20261108', array(
+                        'title' => get_post_field( 'post_title', $id ),
+                        'excerpt' => get_post_field( 'post_excerpt', $id ),
+                        'body' => get_post_field( 'post_content', $id ),
+                        'en_title' => get_post_meta( $id, 'nc_en_title', true ),
+                        'en_excerpt' => get_post_meta( $id, 'nc_en_excerpt', true ),
+                        'en_body' => get_post_meta( $id, 'nc_en_body', true ),
+                    ) );
+                }
+                $update['post_title'] = $title;
+                $update['post_excerpt'] = sanitize_textarea_field( (string) ( $item['pl_lead'] ?? '' ) );
+            }
+            if ( $replace_source_copy || self::should_update_body( $id, $item ) ) {
                 $previous = (string) get_post_field( 'post_content', $id );
                 if ( $previous !== $content ) {
                     $update['post_content'] = $content;
@@ -98,6 +116,19 @@ final class Full_Import {
                 $saved = wp_update_post( $update, true );
                 if ( is_wp_error( $saved ) ) { return array( 0, false, false ); }
             }
+        }
+        if ( $created || $replace_source_copy ) {
+            // Preserve completed English fields when source has no translation.
+            if ( '' !== trim( (string) ( $item['en_title'] ?? '' ) ) ) {
+                update_post_meta( $id, 'nc_en_title', sanitize_text_field( (string) $item['en_title'] ) );
+            }
+            if ( '' !== trim( (string) ( $item['en_lead'] ?? '' ) ) ) {
+                update_post_meta( $id, 'nc_en_excerpt', sanitize_textarea_field( (string) $item['en_lead'] ) );
+            }
+            if ( '' !== trim( (string) ( $item['en_body'] ?? '' ) ) ) {
+                update_post_meta( $id, 'nc_en_body', wp_kses_post( (string) $item['en_body'] ) );
+            }
+            update_post_meta( $id, '_nc_clean_content_version', self::CLEANUP_VERSION );
         }
         update_post_meta( $id, '_nc_full_source_key', $key );
         update_post_meta( $id, '_nc_source_url', esc_url_raw( (string) ( $item['source_url'] ?? '' ) ) );
@@ -130,7 +161,7 @@ final class Full_Import {
         return array( $id, $created, true );
     }
 
-    public static function import(): array {
+    public static function import( bool $force = false ): array {
         $data = self::data();
         if ( ! $data ) { return array( 'created' => 0, 'updated' => 0, 'routes' => 0, 'error' => 'Nie znaleziono danych źródłowych w instalatorze.' ); }
         $created = 0; $updated = 0; $route_index = array();
@@ -147,7 +178,7 @@ final class Full_Import {
                 if ( ! isset( Content_Types::types()[ $type ] ) && 'post' !== $type ) { continue; }
                 $key = sanitize_key( (string) ( $item['source_id'] ?? '' ) );
                 if ( ! $key ) { continue; }
-                list( $id, $is_new, $success ) = self::write_item( $item, $type, $key );
+                list( $id, $is_new, $success ) = self::write_item( $item, $type, $key, $force );
                 if ( ! $success ) { continue; }
                 if ( $is_new ) { $created++; } else { $updated++; }
                 if ( ! empty( $item['source_url'] ) ) {

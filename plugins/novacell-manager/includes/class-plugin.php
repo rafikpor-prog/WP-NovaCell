@@ -17,6 +17,8 @@ final class Plugin {
         Preview_Links::boot();
         add_action( 'admin_init', array( Installer::class, 'maybe_upgrade' ) );
         add_action( 'admin_init', array( Full_Import::class, 'maybe_upgrade' ), 20 );
+        add_action( 'admin_init', array( Cleanup_Update::class, 'maybe_upgrade' ), 30 );
+        add_action( 'admin_post_nc_clean_content', array( Cleanup_Update::class, 'action' ) );
         add_action( 'admin_post_nc_full_import', array( Full_Import::class, 'action' ) );
         add_action( 'admin_post_nc_install_main_menu', array( Main_Menu::class, 'action' ) );
         add_action( 'after_switch_theme', array( Main_Menu::class, 'install' ), 20 );
@@ -24,6 +26,7 @@ final class Plugin {
         // assigns admin_page_* instead of novacell-manager_page_* and returns 403).
         add_action( 'admin_menu', array( Admin::class, 'register_menu' ), 1 );
         add_action( 'admin_menu', static function (): void {
+            add_submenu_page( 'novacell-manager', 'Czyste treści', 'Czyste treści', 'manage_options', 'novacell-clean-content', array( Cleanup_Update::class, 'admin' ) );
             add_submenu_page( 'novacell-manager', 'Pełne treści', 'Pełne treści', 'manage_options', 'novacell-full-import', array( Full_Import::class, 'admin' ) );
             add_submenu_page( 'novacell-manager', 'Menu główne', 'Menu główne PL i EN', 'manage_options', 'novacell-main-menu', array( Main_Menu::class, 'admin' ) );
         } );

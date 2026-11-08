@@ -1,0 +1,41 @@
+name: NOVACELL 0.6.2 Content Cleanup Checks
+
+on:
+  push:
+    branches: [feature/manager-0.6.2-patient-text-cleanup]
+  pull_request:
+    branches: [fix/admin-pages-403-v0.6.1, main]
+
+permissions:
+  contents: read
+
+jobs:
+  php-and-guards:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        php: ['8.0', '8.4']
+    steps:
+      - uses: actions/checkout@v4
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php }}
+          coverage: none
+      - name: PHP syntax
+        run: |
+          set -euo pipefail
+          find plugins/novacell-manager -name '*.php' -type f -print0 | xargs -0 -n1 php -l
+      - name: No private medical source in public Git
+        run: |
+          set -euo pipefail
+          if git ls-files | grep -q '^plugins/novacell-manager/data/'; then
+            echo "Private clinic content must not be committed"; exit 1;
+          fi
+      - name: Admin menu regression
+        run: php tests/test-admin-menu-order.php
+      - name: Cleanup code checks
+        run: |
+          grep -q "CLEANUP_VERSION" plugins/novacell-manager/includes/class-full-import.php
+          grep -q "IMPORT_VERSION = '5'" plugins/novacell-manager/includes/class-full-import.php
+          grep -q "_nc_cleanup_backup_20261108" plugins/novacell-manager/includes/class-cleanup-update.php
+          grep -q "novacell-clean-content" plugins/novacell-manager/includes/class-plugin.php
