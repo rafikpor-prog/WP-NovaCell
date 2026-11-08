@@ -36,6 +36,27 @@ final class Admin {
             echo '<a class="button button-secondary" href="' . esc_url( admin_url( 'admin.php?page=' . $slug ) ) . '">' . esc_html( $label ) . '</a>';
         }
         echo '</div>';
+        // Verify that the actual WordPress admin page hooks exist, rather than
+        // assuming that a displayed link guarantees the screen is accessible.
+        if ( function_exists( 'get_plugin_page_hookname' ) && function_exists( 'has_action' ) ) {
+            $screens = array(
+                'novacell-pages', 'novacell-home-builder', 'novacell-starter',
+                'novacell-preview-settings', 'novacell-diagnostics',
+                'novacell-full-import', 'novacell-main-menu', 'novacell-readiness',
+            );
+            $unavailable = array();
+            foreach ( $screens as $screen_slug ) {
+                $page_hook = get_plugin_page_hookname( $screen_slug, 'novacell-manager' );
+                if ( ! $page_hook || ! has_action( $page_hook ) ) {
+                    $unavailable[] = $screen_slug;
+                }
+            }
+            if ( ! $unavailable ) {
+                echo '<div class="notice notice-success inline"><p><strong>Menu NOVACELL: 8/8 ekranów zarejestrowanych poprawnie.</strong> Możesz otwierać ekrany przyciskami powyżej.</p></div>';
+            } else {
+                echo '<div class="notice notice-warning inline"><p><strong>Uwaga: część ekranów NOVACELL nie została zarejestrowana:</strong> ' . esc_html( implode( ', ', $unavailable ) ) . '. Sprawdź aktywację wtyczki i konflikt z innymi rozszerzeniami.</p></div>';
+            }
+        }
         echo '<h2>Rejestry danych kliniki</h2>';
         
         echo '<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px;max-width:1200px;margin:20px 0">';
