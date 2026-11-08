@@ -20,7 +20,9 @@ final class Plugin {
         add_action( 'admin_post_nc_full_import', array( Full_Import::class, 'action' ) );
         add_action( 'admin_post_nc_install_main_menu', array( Main_Menu::class, 'action' ) );
         add_action( 'after_switch_theme', array( Main_Menu::class, 'install' ), 20 );
-        add_action( 'admin_menu', array( Admin::class, 'register_menu' ) );
+        // Parent must be registered before the child panels (otherwise WordPress
+        // assigns admin_page_* instead of novacell-manager_page_* and returns 403).
+        add_action( 'admin_menu', array( Admin::class, 'register_menu' ), 1 );
         add_action( 'admin_menu', static function (): void {
             add_submenu_page( 'novacell-manager', 'Pełne treści', 'Pełne treści', 'manage_options', 'novacell-full-import', array( Full_Import::class, 'admin' ) );
             add_submenu_page( 'novacell-manager', 'Menu główne', 'Menu główne PL i EN', 'manage_options', 'novacell-main-menu', array( Main_Menu::class, 'admin' ) );
