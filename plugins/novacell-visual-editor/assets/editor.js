@@ -319,6 +319,22 @@
       el(Sidebar, { name: 'novacell-visual', title: 'NOVACELL Visual Editor', icon: 'layout' }, el(SidebarContent))
     );
   }
+  // When launched from the visible NOVACELL menu, reveal the Gutenberg sidebar.
+  // The normal editor still has the standard manual Plugin sidebar control.
+  if (settings.autoOpen) {
+    var retry = 0;
+    var openNovaCellSidebar = function () {
+      try {
+        var editPost = wp.data.dispatch('core/edit-post');
+        if (editPost && typeof editPost.openGeneralSidebar === 'function') {
+          editPost.openGeneralSidebar('novacell-visual-editor/novacell-visual');
+          return;
+        }
+      } catch (error) { /* Older editor variant: use the native sidebar menu. */ }
+      if (++retry < 10) { window.setTimeout(openNovaCellSidebar, 400); }
+    };
+    window.setTimeout(openNovaCellSidebar, 300);
+  }
   wp.plugins.registerPlugin('novacell-visual-editor', {
     icon: 'layout', render: VisualPlugin
   });
