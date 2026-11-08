@@ -65,12 +65,12 @@ final class Full_Import {
         return '' === trim( $old );
     }
 
-    private static function write_item( array $item, string $type, string $key ): array {
+    private static function write_item( array $item, string $type, string $key, bool $force = false ): array {
         $id = self::previously_imported( $type, $key, $item );
         $created = ! $id;
         $content_changed = $created;
         // Explicit owner-requested correction of source-imported descriptions.
-        $replace_source_copy = ! $created && (string) get_post_meta( $id, '_nc_clean_content_version', true ) !== self::CLEANUP_VERSION;
+        $replace_source_copy = ! $created && ( $force || (string) get_post_meta( $id, '_nc_clean_content_version', true ) !== self::CLEANUP_VERSION );
         $content = wp_kses_post( (string) ( $item['pl_body'] ?? $item['description'] ?? '' ) );
         $title = sanitize_text_field( (string) ( $item['pl_title'] ?? '' ) );
         if ( ! $title ) { return array( 0, false, false ); }
@@ -161,7 +161,7 @@ final class Full_Import {
         return array( $id, $created, true );
     }
 
-    public static function import(): array {
+    public static function import( bool $force = false ): array {
         $data = self::data();
         if ( ! $data ) { return array( 'created' => 0, 'updated' => 0, 'routes' => 0, 'error' => 'Nie znaleziono danych źródłowych w instalatorze.' ); }
         $created = 0; $updated = 0; $route_index = array();
@@ -178,7 +178,7 @@ final class Full_Import {
                 if ( ! isset( Content_Types::types()[ $type ] ) && 'post' !== $type ) { continue; }
                 $key = sanitize_key( (string) ( $item['source_id'] ?? '' ) );
                 if ( ! $key ) { continue; }
-                list( $id, $is_new, $success ) = self::write_item( $item, $type, $key );
+                list( $id, $is_new, $success ) = self::write_item( $item, $type, $key, $force );
                 if ( ! $success ) { continue; }
                 if ( $is_new ) { $created++; } else { $updated++; }
                 if ( ! empty( $item['source_url'] ) ) {
